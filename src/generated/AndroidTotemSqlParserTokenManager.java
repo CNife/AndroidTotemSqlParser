@@ -671,7 +671,9 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
         return t;
     }
 
-    /** Get the next Token. */
+    /**
+     * Get the next Token.
+     */
     public Token getNextToken() {
         Token matchedToken;
         int curPos = 0;
@@ -782,5 +784,5 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
             throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
         else
             curLexState = lexState;
-    }
+  }
 }

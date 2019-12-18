@@ -128,11 +128,18 @@ List<Projection> projectionList():
 Projection projection():
 {
     Projection projection;
+    Token token = null;
 }
 {
+    (
       projection = binaryProjection()
     | projection = simpleOrCrossClassProjection()
-    { return projection; }
+    )
+    [ <AS> token = <IDENTIFIER> ]
+    {
+        projection.name = token == null ? null : token.image;
+        return projection;
+    }
 }
 
 BinaryProjection binaryProjection():
@@ -165,6 +172,7 @@ BinaryProjection.OperatorType operator():
    | <DIVIDE> { return BinaryProjection.OperatorType.DIVIDE; }
 }
 
+//noinspection Convert2Diamond
 Projection simpleOrCrossClassProjection():
 {
     List<String> classNames = new ArrayList<String>();
@@ -172,8 +180,6 @@ Projection simpleOrCrossClassProjection():
 }
 {
     LOOKAHEAD(2)
-        token = <IDENTIFIER> { return new SimpleProjection(token.image); }
-    |
     (
         token = <IDENTIFIER> { classNames.add(token.image); }
         ( <ARROW> token = <IDENTIFIER> { classNames.add(token.image); } )+
@@ -181,6 +187,7 @@ Projection simpleOrCrossClassProjection():
         token = <IDENTIFIER>
         { return new CrossClassProjection(classNames, token.image); }
     )
+    | token = <IDENTIFIER> { return new SimpleProjection(token.image); }
 }
 
 WhereClause whereClause():
@@ -203,9 +210,9 @@ WhereClause whereClause():
 WhereClause.BooleanOperatorType booleanOperator():
 {}
 {
-    <EQUALS> { return WhereClause.BooleanOperatorType.EQUALS; }
-    <LESS_THAN> { return WhereClause.BooleanOperatorType.LESS_THAN; }
-    <GREATER_THAN> { return WhereClause.BooleanOperatorType.GREATER_THAN; }
-    <LESS_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.LESS_THAN_OR_EQUALS; }
-    <GREATER_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.GREATER_THAN_OR_EQUALS; }
+      <EQUALS> { return WhereClause.BooleanOperatorType.EQUALS; }
+    | <LESS_THAN> { return WhereClause.BooleanOperatorType.LESS_THAN; }
+    | <GREATER_THAN> { return WhereClause.BooleanOperatorType.GREATER_THAN; }
+    | <LESS_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.LESS_THAN_OR_EQUALS; }
+    | <GREATER_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.GREATER_THAN_OR_EQUALS; }
 }

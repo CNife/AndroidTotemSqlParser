@@ -474,12 +474,9 @@ public class SimpleCharStream {
 
         line = bufline[j];
         column = bufcolumn[j];
-    }
+  }
 
-    boolean getTrackLineColumn() {
-        return trackLineColumn;
-    }
-
-    void setTrackLineColumn(boolean tlc) { trackLineColumn = tlc; }
+  boolean getTrackLineColumn() { return trackLineColumn; }
+  void setTrackLineColumn(boolean tlc) { trackLineColumn = tlc; }
 }
 /* JavaCC - OriginalChecksum=d163eab6e1df1707e221d5ea88792021 (do not edit this line) */
