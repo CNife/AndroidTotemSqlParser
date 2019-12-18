@@ -2,12 +2,15 @@ PARSER_BEGIN(AndroidTotemSqlParser)
 
 package generated;
 
-// import ast.*;
+import java.io.InputStream;
+import java.util.List;
+import java.util.ArrayList;
+import ast.*;
 
 public class AndroidTotemSqlParser {
-    public static void main(String[] args) throws Exception {
-        AndroidTotemSqlParser parser = new AndroidTotemSqlParser(System.in);
-        AndroidTotemSqlParser.Brackets();
+    public static List<Statement> parse(InputStream input) throws Exception {
+        AndroidTotemSqlParser parser = new AndroidTotemSqlParser(input);
+        return parser.statements();
     }
 }
 
@@ -45,12 +48,14 @@ TOKEN : {
       <ARROW: "->">
     | <COMMA: ",">
     | <DOT: ".">
-    | <EQUAL: "=">
+    | <EQUALS: "=">
     | <SEMICOLON: ";">
     | <LEFT_BRACKET: "(">
     | <RIGHT_BRACKET: ")">
-    | <LEES_THAN: "<">
+    | <LESS_THAN: "<">
     | <GREATER_THAN: ">">
+    | <LESS_THAN_OR_EQUALS: "<=">
+    | <GREATER_THAN_OR_EQUALS: ">=">
     | <ADD: "+">
     | <MINUS: "-">
     | <MULTIPLY: "*">
@@ -64,4 +69,143 @@ TOKEN : {
     | <#LETTER: ["A"-"Z", "a"-"z"]>
     | <#DIGIT: ["0"-"9"]>
     | <#LEADING_DIGIT: ["1"-"9"]>
+}
+
+List<Statement> statements():
+{
+    List<Statement> statements = new ArrayList<Statement>();
+    Statement s;
+}
+{
+    ( s = statement() { statements.add(s); } )*
+    <EOF>
+    { return statements; }
+}
+
+Statement statement():
+{
+    Statement s;
+}
+{
+    s = selectStatement()
+    <SEMICOLON>
+    { return s; }
+}
+
+SelectStatement selectStatement():
+{
+    List<Projection> projectionList;
+    String className;
+    WhereClause whereClause;
+    Token token;
+}
+{
+    <SELECT>
+    projectionList = projectionList()
+    <FROM>
+    token = <IDENTIFIER> { className = token.image; }
+    <WHERE>
+    whereClause = whereClause()
+    { return new SelectStatement(projectionList, className, whereClause); }
+}
+
+List<Projection> projectionList():
+{
+    List<Projection> projectionList = new ArrayList<Projection>();
+    Projection projection;
+}
+{
+    projection = projection()
+    { projectionList.add(projection); }
+    (
+        <COMMA>
+        projection = projection()
+        { projectionList.add(projection); }
+    )*
+    { return projectionList; }
+}
+
+Projection projection():
+{
+    Projection projection;
+}
+{
+      projection = binaryProjection()
+    | projection = simpleOrCrossClassProjection()
+    { return projection; }
+}
+
+BinaryProjection binaryProjection():
+{
+    String left;
+    Expression right;
+    BinaryProjection.OperatorType operator;
+    Token token;
+}
+{
+    <LEFT_BRACKET>
+    token = <IDENTIFIER> { left = token.image; }
+    operator = operator()
+    token = <INTEGER_LITERAL>
+    <RIGHT_BRACKET>
+    {
+        right = new Expression(Integer.valueOf(token.image));
+        return new BinaryProjection(left, right, operator);
+    }
+}
+
+BinaryProjection.OperatorType operator():
+{
+    BinaryProjection.OperatorType operator;
+}
+{
+     <ADD> { return BinaryProjection.OperatorType.ADD; }
+   | <MINUS> { return BinaryProjection.OperatorType.MINUS; }
+   | <MULTIPLY> { return BinaryProjection.OperatorType.MULTIPLY; }
+   | <DIVIDE> { return BinaryProjection.OperatorType.DIVIDE; }
+}
+
+Projection simpleOrCrossClassProjection():
+{
+    List<String> classNames = new ArrayList<String>();
+    Token token;
+}
+{
+    LOOKAHEAD(2)
+        token = <IDENTIFIER> { return new SimpleProjection(token.image); }
+    |
+    (
+        token = <IDENTIFIER> { classNames.add(token.image); }
+        ( <ARROW> token = <IDENTIFIER> { classNames.add(token.image); } )+
+        <DOT>
+        token = <IDENTIFIER>
+        { return new CrossClassProjection(classNames, token.image); }
+    )
+}
+
+WhereClause whereClause():
+{
+    String left;
+    Expression right;
+    WhereClause.BooleanOperatorType operator;
+    Token token;
+}
+{
+    token = <IDENTIFIER> { left = token.image; }
+    operator = booleanOperator()
+    token = <INTEGER_LITERAL>
+    {
+        right = new Expression(Integer.valueOf(token.image));
+        return new WhereClause(left, right, operator);
+    }
+}
+
+WhereClause.BooleanOperatorType booleanOperator():
+{}
+{
+    <EQUALS> { return WhereClause.BooleanOperatorType.EQUALS; }
+    <LESS_THAN> { return WhereClause.BooleanOperatorType.LESS_THAN; }
+    <GREATER_THAN> { return WhereClause.BooleanOperatorType.GREATER_THAN; }
+    <LESS_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.LESS_THAN_OR_EQUALS; }
+    <GREATER_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.GREATER_THAN_OR_EQUALS; }
 }

@@ -6,6 +6,12 @@ public class WhereClause {
     public Expression right;
     public BooleanOperatorType operator;
 
+    public WhereClause(String left, Expression right, BooleanOperatorType operator) {
+        this.left = left;
+        this.right = right;
+        this.operator = operator;
+    }
+
     public enum BooleanOperatorType {
         EQUALS,
         LESS_THAN,
