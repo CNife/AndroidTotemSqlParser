@@ -1,0 +1,26 @@
+PARSER_BEGIN(AndroidTotemSqlParser)
+
+package generated;
+
+// import parser.*;
+
+public class AndroidTotemSqlParser {
+    public static void main(String[] args) throws Exception {
+        AndroidTotemSqlParser parser = new AndroidTotemSqlParser(System.in);
+        AndroidTotemSqlParser.Brackets();
+    }
+}
+
+PARSER_END(AndroidTotemSqlParser)
+
+SKIP : { " " | "\t" | "\r" | "\n" }
+
+void Brackets(): {}
+{
+    Bracket() ";"
+}
+
+void Bracket(): {}
+{
+    "(" [ Bracket() ] ")"
+}
