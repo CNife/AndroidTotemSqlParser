@@ -2,7 +2,7 @@ PARSER_BEGIN(AndroidTotemSqlParser)
 
 package generated;
 
-// import parser.*;
+// import ast.*;
 
 public class AndroidTotemSqlParser {
     public static void main(String[] args) throws Exception {
@@ -13,14 +13,55 @@ public class AndroidTotemSqlParser {
 
 PARSER_END(AndroidTotemSqlParser)
 
+// 跳过空白字符
 SKIP : { " " | "\t" | "\r" | "\n" }
 
-void Brackets(): {}
-{
-    Bracket() ";"
+// 关键字
+TOKEN : {
+      <AS: "AS">
+    | <CLASS: "CLASS">
+    | <CREATE: "CREATE">
+    | <DELETE: "DELETE">
+    | <DROP: "DROP">
+    | <FROM: "FROM">
+    | <INSERT: "INSERT">
+    | <INTO: "INTO">
+    | <SELECT: "SELECT">
+    | <SELECTDEPUTY: "SELECTDEPUTY">
+    | <SET: "SET">
+    | <UPDATE: "UPDATE">
+    | <VALUES: "VALUES">
+    | <WHERE: "WHERE">
 }
 
-void Bracket(): {}
-{
-    "(" [ Bracket() ] ")"
+// 数据类型
+TOKEN : {
+      <INT: "INT">
+    | <CHAR: "CHAR">
+}
+
+// 运算符
+TOKEN : {
+      <ARROW: "->">
+    | <COMMA: ",">
+    | <DOT: ".">
+    | <EQUAL: "=">
+    | <SEMICOLON: ";">
+    | <LEFT_BRACKET: "(">
+    | <RIGHT_BRACKET: ")">
+    | <LEES_THAN: "<">
+    | <GREATER_THAN: ">">
+    | <ADD: "+">
+    | <MINUS: "-">
+    | <MULTIPLY: "*">
+    | <DIVIDE: "/">
+}
+
+// 标识符和数字
+TOKEN : {
+      <IDENTIFIER: <LETTER> (<LETTER> | <DIGIT>)*>
+    | <INTEGER_LITERAL: <LEADING_DIGIT> (<DIGIT>)*>
+    | <#LETTER: ["A"-"Z", "a"-"z"]>
+    | <#DIGIT: ["0"-"9"]>
+    | <#LEADING_DIGIT: ["1"-"9"]>
 }
