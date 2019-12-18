@@ -3,7 +3,7 @@ package ast;
 public class BinaryProjection extends Projection {
 
     public String left;
-    public String right;
+    public Expression right;
     public OperatorType operator;
 
     @Override

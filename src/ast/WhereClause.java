@@ -3,7 +3,7 @@ package ast;
 public class WhereClause {
 
     public String left;
-    public String right;
+    public Expression right;
     public BooleanOperatorType operator;
 
     public enum BooleanOperatorType {
