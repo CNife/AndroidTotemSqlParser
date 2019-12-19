@@ -22,7 +22,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         jj_la1_init_1();
     }
 
-    final private int[] jj_la1 = new int[9];
+    final private int[] jj_la1 = new int[11];
     final private JJCalls[] jj_2_rtns = new JJCalls[1];
     final private LookaheadSuccess jj_ls = new LookaheadSuccess();
     /**
@@ -72,7 +72,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -85,7 +85,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -97,16 +97,16 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{0x2000, 0x40000, 0x400000, 0x4000000, 0x20, 0x0, 0x200000, 0x0, 0xf1000000,};
+        jj_la1_0 = new int[]{0x2080, 0x2080, 0x40000, 0x800000, 0x8000000, 0x20, 0x0, 0x400000, 0x0, 0xe2000000, 0x800000,};
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{0x0, 0x0, 0x0, 0x10, 0x0, 0xf, 0x0, 0x10, 0x0,};
+        jj_la1_1 = new int[]{0x0, 0x0, 0x0, 0x0, 0x20, 0x0, 0x1e, 0x0, 0x20, 0x1, 0x0,};
     }
 
     final public List<Statement> statements() throws ParseException {
@@ -117,6 +117,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
             label_1:
             while (true) {
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                    case CREATE:
                     case SELECT: {
                         break;
                     }
@@ -141,7 +142,20 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         trace_call("statement");
         try {
             Statement s;
-            s = selectStatement();
+            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                case SELECT: {
+                    s = selectStatement();
+                    break;
+                }
+                case CREATE: {
+                    s = createClassStatement();
+                    break;
+                }
+                default:
+                    jj_la1[1] = jj_gen;
+                    jj_consume_token(-1);
+                    throw new ParseException();
+            }
             jj_consume_token(SEMICOLON);
             {
                 if ("" != null) return s;
@@ -171,7 +185,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[1] = jj_gen;
+                    jj_la1[2] = jj_gen;
             }
             {
                 if ("" != null) return new SelectStatement(projectionList, className, whereClause);
@@ -196,7 +210,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                         break;
                     }
                     default:
-                        jj_la1[2] = jj_gen;
+                        jj_la1[3] = jj_gen;
                         break label_2;
                 }
                 jj_consume_token(COMMA);
@@ -227,7 +241,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[3] = jj_gen;
+                    jj_la1[4] = jj_gen;
                     jj_consume_token(-1);
                     throw new ParseException();
             }
@@ -238,7 +252,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[4] = jj_gen;
+                    jj_la1[5] = jj_gen;
             }
             projection.name = token == null ? null : token.image;
             {
@@ -307,7 +321,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[5] = jj_gen;
+                    jj_la1[6] = jj_gen;
                     jj_consume_token(-1);
                     throw new ParseException();
             }
@@ -336,7 +350,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                             break;
                         }
                         default:
-                            jj_la1[6] = jj_gen;
+                            jj_la1[7] = jj_gen;
                             break label_3;
                     }
                 }
@@ -355,7 +369,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                         break;
                     }
                     default:
-                        jj_la1[7] = jj_gen;
+                        jj_la1[8] = jj_gen;
                         jj_consume_token(-1);
                         throw new ParseException();
                 }
@@ -427,13 +441,107 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[8] = jj_gen;
+                    jj_la1[9] = jj_gen;
                     jj_consume_token(-1);
                     throw new ParseException();
             }
             throw new Error("Missing return statement in function");
         } finally {
             trace_return("booleanOperator");
+        }
+    }
+
+    final public String identifier() throws ParseException {
+        trace_call("identifier");
+        try {
+            Token token;
+            token = jj_consume_token(IDENTIFIER);
+            {
+                if ("" != null) return token.image;
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("identifier");
+        }
+    }
+
+    final public CreateClassStatement createClassStatement() throws ParseException {
+        trace_call("createClassStatement");
+        try {
+            String className;
+            List<Property> propertyList;
+            jj_consume_token(CREATE);
+            jj_consume_token(CLASS);
+            className = identifier();
+            propertyList = propertyList();
+            {
+                if ("" != null) return new CreateClassStatement(className, propertyList);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("createClassStatement");
+        }
+    }
+
+    final public List<Property> propertyList() throws ParseException {
+        trace_call("propertyList");
+        try {
+            List<Property> propertyList = new ArrayList<Property>();
+            Property property;
+            jj_consume_token(LEFT_BRACKET);
+            property = property();
+            propertyList.add(property);
+            label_4:
+            while (true) {
+                switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                    case COMMA: {
+                        break;
+                    }
+                    default:
+                        jj_la1[10] = jj_gen;
+                        break label_4;
+                }
+                jj_consume_token(COMMA);
+                property = property();
+                propertyList.add(property);
+            }
+            jj_consume_token(RIGHT_BRACKET);
+            {
+                if ("" != null) return propertyList;
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("propertyList");
+        }
+    }
+
+    final public Property property() throws ParseException {
+        trace_call("property");
+        try {
+            String name;
+            PropertyType type;
+            name = identifier();
+            type = propertyType();
+            {
+                if ("" != null) return new Property(name, type);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("property");
+        }
+    }
+
+    final public PropertyType propertyType() throws ParseException {
+        trace_call("propertyType");
+        try {
+            Token token;
+            token = jj_consume_token(TYPE);
+            {
+                if ("" != null) return PropertyType.typeOf(token.image);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("propertyType");
         }
     }
 
@@ -452,10 +560,10 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     private boolean jj_3_1() {
         if (jj_scan_token(IDENTIFIER)) return true;
         Token xsp;
-        if (jj_3R_4()) return true;
+        if (jj_3R_5()) return true;
         while (true) {
             xsp = jj_scanpos;
-            if (jj_3R_4()) {
+            if (jj_3R_5()) {
                 jj_scanpos = xsp;
                 break;
             }
@@ -463,7 +571,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         return false;
     }
 
-    private boolean jj_3R_4() {
+    private boolean jj_3R_5() {
         return jj_scan_token(ARROW);
     }
 
@@ -487,7 +595,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -500,7 +608,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -512,7 +620,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 9; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -628,12 +736,12 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
      */
     public ParseException generateParseException() {
         jj_expentries.clear();
-        boolean[] la1tokens = new boolean[41];
+        boolean[] la1tokens = new boolean[42];
         if (jj_kind >= 0) {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
         }
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 11; i++) {
             if (jj_la1[i] == jj_gen) {
                 for (int j = 0; j < 32; j++) {
                     if ((jj_la1_0[i] & (1 << j)) != 0) {
@@ -645,7 +753,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                 }
             }
         }
-        for (int i = 0; i < 41; i++) {
+        for (int i = 0; i < 42; i++) {
             if (la1tokens[i]) {
                 jj_expentry = new int[1];
                 jj_expentry[0] = i;

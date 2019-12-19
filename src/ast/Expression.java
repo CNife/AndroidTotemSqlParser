@@ -1,7 +1,7 @@
 package ast;
 
 public class Expression {
-    public Property.PropertyType type;
+    public PropertyType type;
     private Object value;
 
     public Expression(Object value) {

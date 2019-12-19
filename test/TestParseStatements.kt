@@ -19,4 +19,5 @@ fun testParse(name: String) {
 
 fun main() {
     testParse("select")
+    testParse("create_class")
 }

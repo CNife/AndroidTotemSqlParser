@@ -39,8 +39,9 @@ TOKEN : {
 
 // 数据类型
 TOKEN : {
-      <INT: "INT">
-    | <CHAR: "CHAR">
+      <TYPE: <INT> | <CHAR> >
+    | <#INT: "INT">
+    | <#CHAR: "CHAR">
 }
 
 // 运算符
@@ -87,7 +88,10 @@ Statement statement():
     Statement s;
 }
 {
-    s = selectStatement()
+    (
+        s = selectStatement()
+      | s = createClassStatement()
+    )
     <SEMICOLON>
     { return s; }
 }
@@ -217,4 +221,63 @@ WhereClause.BooleanOperatorType booleanOperator():
     | <GREATER_THAN> { return WhereClause.BooleanOperatorType.GREATER_THAN; }
     | <LESS_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.LESS_THAN_OR_EQUALS; }
     | <GREATER_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.GREATER_THAN_OR_EQUALS; }
+}
+
+String identifier():
+{
+    Token token;
+}
+{
+    token = <IDENTIFIER>
+    { return token.image; }
+}
+
+CreateClassStatement createClassStatement():
+{
+    String className;
+    List<Property> propertyList;
+}
+{
+    <CREATE> <CLASS>
+    className = identifier()
+    propertyList = propertyList()
+    { return new CreateClassStatement(className, propertyList); }
+}
+
+List<Property> propertyList():
+{
+    List<Property> propertyList = new ArrayList<Property>();
+    Property property;
+}
+{
+    <LEFT_BRACKET>
+    property = property()
+    { propertyList.add(property); }
+    (
+        <COMMA>
+        property = property()
+        { propertyList.add(property); }
+    )*
+    <RIGHT_BRACKET>
+    { return propertyList; }
+}
+
+Property property():
+{
+    String name;
+    PropertyType type;
+}
+{
+    name = identifier()
+    type = propertyType()
+    { return new Property(name, type); }
+}
+
+PropertyType propertyType():
+{
+    Token token;
+}
+{
+    token = <TYPE>
+    { return PropertyType.typeOf(token.image); }
 }
