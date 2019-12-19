@@ -15,4 +15,12 @@ public class CreateClassStatement implements Statement {
     public StatementType getType() {
         return StatementType.CREATE_CLASS;
     }
+
+    @Override
+    public String toString() {
+        return "CreateClassStatement{" +
+                "className='" + className + '\'' +
+                ", propertyList=" + propertyList +
+                '}';
+    }
 }

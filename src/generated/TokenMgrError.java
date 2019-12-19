@@ -8,59 +8,49 @@ package generated;
 public class TokenMgrError extends Error {
 
     /**
-     * The version identifier for this Serializable class.
-     * Increment only if the <i>serialized</i> form of the
-     * class changes.
-     */
-    private static final long serialVersionUID = 1L;
-
-    /*
-     * Ordinals for various reasons why an Error of this type can be thrown.
-     */
-
-    /**
      * Lexical error occurred.
      */
     static final int LEXICAL_ERROR = 0;
 
+    /*
+     * Ordinals for various reasons why an Error of this type can be thrown.
+     */
     /**
      * An attempt was made to create a second instance of a static token manager.
      */
-  static final int STATIC_LEXER_ERROR = 1;
-
-  /**
-   * Tried to change to an invalid lexical state.
-   */
-  static final int INVALID_LEXICAL_STATE = 2;
-
+    static final int STATIC_LEXER_ERROR = 1;
     /**
      * Detected (and bailed out of) an infinite loop in the token manager.
      */
     static final int LOOP_DETECTED = 3;
 
     /**
+     * Tried to change to an invalid lexical state.
+     */
+    static final int INVALID_LEXICAL_STATE = 2;
+    /**
+     * The version identifier for this Serializable class.
+     * Increment only if the <i>serialized</i> form of the
+     * class changes.
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * Indicates the reason why the exception is thrown. It will have
      * one of the above 4 values.
      */
     int errorCode;
 
-    /**
-     * No arg constructor.
-     */
+    /** No arg constructor. */
     public TokenMgrError() {
     }
 
-    /**
-     * Constructor with message and reason.
-     */
+    /** Constructor with message and reason. */
     public TokenMgrError(String message, int reason) {
         super(message);
         errorCode = reason;
     }
 
-    /**
-     * Full Constructor.
-     */
+    /** Full Constructor. */
     public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
         this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
     }
@@ -97,16 +87,16 @@ public class TokenMgrError extends Error {
                     continue;
                 case '\"':
                     retval.append("\\\"");
-          continue;
-        case '\'':
-          retval.append("\\'");
-          continue;
-        case '\\':
-          retval.append("\\\\");
-          continue;
-        default:
-          if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
-            String s = "0000" + Integer.toString(ch, 16);
+                    continue;
+                case '\'':
+                    retval.append("\\'");
+                    continue;
+                case '\\':
+                    retval.append("\\\\");
+                    continue;
+                default:
+                    if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
+                        String s = "0000" + Integer.toString(ch, 16);
             retval.append("\\u" + s.substring(s.length() - 4));
           } else {
             retval.append(ch);

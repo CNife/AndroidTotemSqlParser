@@ -9,4 +9,12 @@ public class Property {
         this.name = name;
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }
