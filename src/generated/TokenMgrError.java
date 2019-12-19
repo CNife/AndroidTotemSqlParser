@@ -7,15 +7,15 @@ package generated;
  */
 public class TokenMgrError extends Error {
 
-  /**
-   * The version identifier for this Serializable class.
-   * Increment only if the <i>serialized</i> form of the
-   * class changes.
-   */
-  private static final long serialVersionUID = 1L;
+    /**
+     * The version identifier for this Serializable class.
+     * Increment only if the <i>serialized</i> form of the
+     * class changes.
+     */
+    private static final long serialVersionUID = 1L;
 
-  /*
-   * Ordinals for various reasons why an Error of this type can be thrown.
+    /*
+     * Ordinals for various reasons why an Error of this type can be thrown.
    */
 
   /**
@@ -44,43 +44,62 @@ public class TokenMgrError extends Error {
    */
   int errorCode;
 
-  /** No arg constructor. */
-  public TokenMgrError() {
-  }
+    /**
+     * No arg constructor.
+     */
+    public TokenMgrError() {
+    }
 
-  /** Constructor with message and reason. */
-  public TokenMgrError(String message, int reason) {
-    super(message);
-    errorCode = reason;
-  }
+    /**
+     * Constructor with message and reason.
+     */
+    public TokenMgrError(String message, int reason) {
+        super(message);
+        errorCode = reason;
+    }
 
-  /** Full Constructor. */
-  public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
-    this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
-  }
+    /**
+     * You can also modify the body of this method to customize your error messages.
+     * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
+     * of end-users concern, so you can return something like :
+     * <p>
+     * "Internal Error : Please file a bug report .... "
+     * <p>
+     * from this method for such cases in the release version of your parser.
+     */
+    public String getMessage() {
+        return super.getMessage();
+    }
 
-  /*
-   * Constructors of various flavors follow.
-   */
+    /*
+     * Constructors of various flavors follow.
+     */
 
-  /**
-   * Replaces unprintable characters by their escaped (or unicode escaped)
-   * equivalents in the given string
-   */
+    /**
+     * Full Constructor.
+     */
+    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
+        this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
+    }
+
+    /**
+     * Replaces unprintable characters by their escaped (or unicode escaped)
+     * equivalents in the given string
+     */
   protected static final String addEscapes(String str) {
     StringBuffer retval = new StringBuffer();
-    char ch;
-    for (int i = 0; i < str.length(); i++) {
-      switch (str.charAt(i)) {
-        case 0:
-          continue;
-        case '\b':
-          retval.append("\\b");
-          continue;
-        case '\t':
-          retval.append("\\t");
-          continue;
-        case '\n':
+      char ch;
+      for (int i = 0; i < str.length(); i++) {
+          switch (str.charAt(i)) {
+              case 0:
+                  continue;
+              case '\b':
+                  retval.append("\\b");
+                  continue;
+              case '\t':
+                  retval.append("\\t");
+                  continue;
+              case '\n':
           retval.append("\\n");
           continue;
         case '\f':
@@ -124,24 +143,11 @@ public class TokenMgrError extends Error {
    * Note: You can customize the lexical error message by modifying this method.
    */
   protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
-    return ("Lexical error at line " +
-            errorLine + ", column " +
-            errorColumn + ".  Encountered: " +
-            (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int) curChar + "), ") +
-            "after : \"" + addEscapes(errorAfter) + "\"");
-  }
-
-  /**
-   * You can also modify the body of this method to customize your error messages.
-   * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
-   * of end-users concern, so you can return something like :
-   *
-   *     "Internal Error : Please file a bug report .... "
-   *
-   * from this method for such cases in the release version of your parser.
-   */
-  public String getMessage() {
-    return super.getMessage();
+      return ("Lexical error at line " +
+              errorLine + ", column " +
+              errorColumn + ".  Encountered: " +
+              (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int) curChar + "), ") +
+              "after : \"" + addEscapes(errorAfter) + "\"");
   }
 }
 /* JavaCC - OriginalChecksum=ee21bce3f5aa6be208903709185e866d (do not edit this line) */

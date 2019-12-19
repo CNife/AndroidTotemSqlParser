@@ -8,17 +8,13 @@ package generated;
 @SuppressWarnings("unused")
 public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserConstants {
 
-    /**
-     * Token literal values.
-     */
+    /** Token literal values. */
     public static final String[] jjstrLiteralImages = {
             "", null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null, null, "\55\76", "\54", "\56", "\75",
             "\73", "\50", "\51", "\74", "\76", "\74\75", "\76\75", "\53", "\55", "\52", "\57",
             null, null, null, null, null,};
-    /**
-     * Lexer state names.
-     */
+    /** Lexer state names. */
     public static final String[] lexStateNames = {
             "DEFAULT",
     };
@@ -32,9 +28,7 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
     };
     private final int[] jjrounds = new int[11];
     private final int[] jjstateSet = new int[2 * 11];
-    /**
-     * Debug output.
-     */
+    /** Debug output. */
     public java.io.PrintStream debugStream = System.out;
     protected SimpleCharStream input_stream;
     protected char curChar;
@@ -45,9 +39,7 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
     int jjmatchedPos;
     int jjmatchedKind;
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     public AndroidTotemSqlParserTokenManager(SimpleCharStream stream) {
 
         if (SimpleCharStream.staticFlag)
@@ -56,17 +48,13 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
         input_stream = stream;
     }
 
-    /**
-     * Constructor.
-     */
+    /** Constructor. */
     public AndroidTotemSqlParserTokenManager(SimpleCharStream stream, int lexState) {
         ReInit(stream);
         SwitchTo(lexState);
     }
 
-    /**
-     * Set debug output.
-     */
+    /** Set debug output. */
     public void setDebugStream(java.io.PrintStream ds) {
         debugStream = ds;
     }
@@ -895,5 +883,5 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
             throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
         else
             curLexState = lexState;
-    }
+  }
 }

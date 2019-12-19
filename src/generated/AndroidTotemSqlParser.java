@@ -172,12 +172,10 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
             List<Projection> projectionList;
             String className;
             WhereClause whereClause = null;
-            Token token;
             jj_consume_token(SELECT);
             projectionList = projectionList();
             jj_consume_token(FROM);
-            token = jj_consume_token(IDENTIFIER);
-            className = token.image;
+            className = identifier();
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case WHERE: {
                     jj_consume_token(WHERE);
@@ -230,7 +228,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         trace_call("projection");
         try {
             Projection projection;
-            Token token = null;
+            String name = null;
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case LEFT_BRACKET: {
                     projection = binaryProjection();
@@ -248,13 +246,13 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case AS: {
                     jj_consume_token(AS);
-                    token = jj_consume_token(IDENTIFIER);
+                    name = identifier();
                     break;
                 }
                 default:
                     jj_la1[5] = jj_gen;
             }
-            projection.name = token == null ? null : token.image;
+            projection.name = name;
             {
                 if ("" != null) return projection;
             }
@@ -268,22 +266,33 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         trace_call("binaryProjection");
         try {
             String left;
-            Expression right;
+            int right;
             BinaryProjection.OperatorType operator;
-            Token token;
             jj_consume_token(LEFT_BRACKET);
-            token = jj_consume_token(IDENTIFIER);
-            left = token.image;
+            left = identifier();
             operator = operator();
-            token = jj_consume_token(INTEGER_LITERAL);
+            right = integer();
             jj_consume_token(RIGHT_BRACKET);
-            right = new Expression(Integer.valueOf(token.image));
             {
-                if ("" != null) return new BinaryProjection(left, right, operator);
+                if ("" != null) return new BinaryProjection(left, new Expression(right), operator);
             }
             throw new Error("Missing return statement in function");
         } finally {
             trace_return("binaryProjection");
+        }
+    }
+
+    final public int integer() throws ParseException {
+        trace_call("integer");
+        try {
+            Token token;
+            token = jj_consume_token(INTEGER_LITERAL);
+            {
+                if ("" != null) return Integer.valueOf(token.image);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("integer");
         }
     }
 
@@ -331,20 +340,20 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         }
     }
 
-    //noinspection Convert2Diamond
     final public Projection simpleOrCrossClassProjection() throws ParseException {
         trace_call("simpleOrCrossClassProjection");
         try {
             List<String> classNames = new ArrayList<String>();
-            Token token;
+            String className;
+            String propertyName;
             if (jj_2_1(2)) {
-                token = jj_consume_token(IDENTIFIER);
-                classNames.add(token.image);
+                className = identifier();
+                classNames.add(className);
                 label_3:
                 while (true) {
                     jj_consume_token(ARROW);
-                    token = jj_consume_token(IDENTIFIER);
-                    classNames.add(token.image);
+                    className = identifier();
+                    classNames.add(className);
                     switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                         case ARROW: {
                             break;
@@ -355,9 +364,9 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     }
                 }
                 jj_consume_token(DOT);
-                token = jj_consume_token(IDENTIFIER);
+                propertyName = identifier();
                 {
-                    if ("" != null) return new CrossClassProjection(classNames, token.image);
+                    if ("" != null) return new CrossClassProjection(classNames, propertyName);
                 }
             } else {
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
@@ -384,16 +393,13 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         trace_call("whereClause");
         try {
             String left;
-            Expression right;
+            int right;
             WhereClause.BooleanOperatorType operator;
-            Token token;
-            token = jj_consume_token(IDENTIFIER);
-            left = token.image;
+            left = identifier();
             operator = booleanOperator();
-            token = jj_consume_token(INTEGER_LITERAL);
-            right = new Expression(Integer.valueOf(token.image));
+            right = integer();
             {
-                if ("" != null) return new WhereClause(left, right, operator);
+                if ("" != null) return new WhereClause(left, new Expression(right), operator);
             }
             throw new Error("Missing return statement in function");
         } finally {
@@ -558,12 +564,12 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     }
 
     private boolean jj_3_1() {
-        if (jj_scan_token(IDENTIFIER)) return true;
-        Token xsp;
         if (jj_3R_5()) return true;
+        Token xsp;
+        if (jj_3R_6()) return true;
         while (true) {
             xsp = jj_scanpos;
-            if (jj_3R_5()) {
+            if (jj_3R_6()) {
                 jj_scanpos = xsp;
                 break;
             }
@@ -571,8 +577,12 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         return false;
     }
 
-    private boolean jj_3R_5() {
+    private boolean jj_3R_6() {
         return jj_scan_token(ARROW);
+    }
+
+    private boolean jj_3R_5() {
+        return jj_scan_token(IDENTIFIER);
     }
 
     /**

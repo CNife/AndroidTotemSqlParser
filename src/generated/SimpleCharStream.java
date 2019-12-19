@@ -23,15 +23,14 @@ public class SimpleCharStream {
     protected boolean prevCharIsCR = false;
     protected boolean prevCharIsLF = false;
     protected java.io.Reader inputStream;
-    int bufsize;
-    int available;
-    int tokenBegin;
-
     protected char[] buffer;
     protected int maxNextCharInd = 0;
     protected int inBuf = 0;
     protected int tabSize = 8;
     protected boolean trackLineColumn = true;
+    int bufsize;
+    int available;
+    int tokenBegin;
 
     /**
      * Constructor.
@@ -108,26 +107,6 @@ public class SimpleCharStream {
      */
     public SimpleCharStream(java.io.InputStream dstream) {
         this(dstream, 1, 1, 4096);
-    }
-
-    @Deprecated
-    /**
-     * @deprecated
-     * @see #getEndColumn
-     */
-
-    public int getColumn() {
-        return bufcolumn[bufpos];
-    }
-
-    @Deprecated
-    /**
-     * @deprecated
-     * @see #getEndLine
-     */
-
-    public int getLine() {
-        return bufline[bufpos];
     }
 
     public int getTabSize() {
@@ -281,27 +260,49 @@ public class SimpleCharStream {
         return c;
     }
 
+    @Deprecated
+    /**
+     * @deprecated
+     * @see #getEndColumn
+     */
+
+    public int getColumn() {
+        return bufcolumn[bufpos];
+    }
+
+    @Deprecated
+    /**
+     * @deprecated
+     * @see #getEndLine
+     */
+
+    public int getLine() {
+        return bufline[bufpos];
+    }
+
     /**
      * Get token end column number.
      */
-  public int getEndColumn() {
-      return bufcolumn[bufpos];
-  }
+    public int getEndColumn() {
+        return bufcolumn[bufpos];
+    }
 
-    /** Get token end line number. */
+  /** Get token end line number. */
   public int getEndLine() {
       return bufline[bufpos];
   }
 
-    /** Get token beginning column number. */
+  /** Get token beginning column number. */
   public int getBeginColumn() {
       return bufcolumn[tokenBegin];
   }
 
-    /** Get token beginning line number. */
-  public int getBeginLine() {
-    return bufline[tokenBegin];
-  }
+    /**
+     * Get token beginning line number.
+     */
+    public int getBeginLine() {
+        return bufline[tokenBegin];
+    }
 
     /**
      * Backup a number of characters.
@@ -460,14 +461,14 @@ public class SimpleCharStream {
             bufcolumn[j] = newCol + columnDiff;
 
             while (i++ < len) {
-                if (bufline[j = start % bufsize] != bufline[++start % bufsize])
-                    bufline[j] = newLine++;
-                else
-                    bufline[j] = newLine;
-            }
-        }
+        if (bufline[j = start % bufsize] != bufline[++start % bufsize])
+          bufline[j] = newLine++;
+        else
+          bufline[j] = newLine;
+      }
+    }
 
-        line = bufline[j];
+    line = bufline[j];
     column = bufcolumn[j];
   }
 
