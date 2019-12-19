@@ -106,6 +106,8 @@ Statement statement():
       | s = createDeputyStatement()
       | s = insertStatement()
       | s = updateStatement()
+      | s = deleteStatement()
+      | s = dropStatement()
     )
     <SEMICOLON>
     { return s; }
@@ -408,4 +410,27 @@ UpdateStatement updateStatement():
         propertyValue = expression.right;
         return new UpdateStatement(className, propertyName, propertyValue, whereClause);
     }
+}
+
+DeleteStatement deleteStatement():
+{
+    String className;
+    WhereClause whereClause;
+}
+{
+    <DELETE> <FROM>
+    className = identifier()
+    <WHERE>
+    whereClause = whereClause()
+    { return new DeleteStatement(className, whereClause); }
+}
+
+DropStatement dropStatement():
+{
+    String className;
+}
+{
+    <DROP> <CLASS>
+    className = identifier()
+    { return new DropStatement(className); }
 }

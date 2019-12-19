@@ -23,4 +23,6 @@ fun main() {
     testParse("create_deputy")
     testParse("insert")
     testParse("update")
+    testParse("delete")
+    testParse("drop")
 }

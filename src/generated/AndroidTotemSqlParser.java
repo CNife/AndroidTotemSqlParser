@@ -102,7 +102,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{0x12880, 0x2000, 0x10880, 0x40000, 0x800000, 0x4000000, 0x0, 0x20, 0x0, 0x400000, 0x800000, 0x4000000, 0x800000, 0x4000000, 0x800000, 0x4000000,};
+        jj_la1_0 = new int[]{0x12b80, 0x2000, 0x10b80, 0x40000, 0x800000, 0x4000000, 0x0, 0x20, 0x0, 0x400000, 0x800000, 0x4000000, 0x800000, 0x4000000, 0x800000, 0x4000000,};
     }
 
     private static void jj_la1_init_1() {
@@ -118,6 +118,8 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
             while (true) {
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                     case CREATE:
+                    case DELETE:
+                    case DROP:
                     case INSERT:
                     case SELECT:
                     case UPDATE: {
@@ -165,6 +167,14 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                             }
                             case UPDATE: {
                                 s = updateStatement();
+                                break;
+                            }
+                            case DELETE: {
+                                s = deleteStatement();
+                                break;
+                            }
+                            case DROP: {
+                                s = dropStatement();
                                 break;
                             }
                             default:
@@ -705,6 +715,41 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         }
     }
 
+    final public DeleteStatement deleteStatement() throws ParseException {
+        trace_call("deleteStatement");
+        try {
+            String className;
+            WhereClause whereClause;
+            jj_consume_token(DELETE);
+            jj_consume_token(FROM);
+            className = identifier();
+            jj_consume_token(WHERE);
+            whereClause = whereClause();
+            {
+                if ("" != null) return new DeleteStatement(className, whereClause);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("deleteStatement");
+        }
+    }
+
+    final public DropStatement dropStatement() throws ParseException {
+        trace_call("dropStatement");
+        try {
+            String className;
+            jj_consume_token(DROP);
+            jj_consume_token(CLASS);
+            className = identifier();
+            {
+                if ("" != null) return new DropStatement(className);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("dropStatement");
+        }
+    }
+
     private boolean jj_2_1(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
@@ -729,25 +774,8 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         }
     }
 
-    private boolean jj_3R_9() {
-        return jj_scan_token(IDENTIFIER);
-    }
-
-    private boolean jj_3R_7() {
-        if (jj_scan_token(CREATE)) return true;
-        return jj_scan_token(CLASS);
-    }
-
-    private boolean jj_3_2() {
-        return jj_3R_8();
-    }
-
     private boolean jj_3R_10() {
         return jj_scan_token(ARROW);
-    }
-
-    private boolean jj_3_1() {
-        return jj_3R_7();
     }
 
     private boolean jj_3R_8() {
@@ -762,6 +790,23 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
             }
         }
         return false;
+    }
+
+    private boolean jj_3_1() {
+        return jj_3R_7();
+    }
+
+    private boolean jj_3R_9() {
+        return jj_scan_token(IDENTIFIER);
+    }
+
+    private boolean jj_3R_7() {
+        if (jj_scan_token(CREATE)) return true;
+        return jj_scan_token(CLASS);
+    }
+
+    private boolean jj_3_2() {
+        return jj_3R_8();
     }
 
     /**
