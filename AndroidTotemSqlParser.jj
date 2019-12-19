@@ -52,6 +52,7 @@ TOKEN : {
     | <SEMICOLON: ";">
     | <LEFT_BRACKET: "(">
     | <RIGHT_BRACKET: ")">
+    | <SINGLE_QUOTE: "'">
 }
 
 // 二元运算符
@@ -78,6 +79,11 @@ TOKEN : {
     | <#LEADING_DIGIT: ["1"-"9"]>
 }
 
+// 字符串
+TOKEN : {
+    <STRING: <SINGLE_QUOTE> (~["'"])* <SINGLE_QUOTE> >
+}
+
 List<Statement> statements():
 {
     List<Statement> statements = new ArrayList<Statement>();
@@ -98,6 +104,7 @@ Statement statement():
         s = selectStatement()
       | LOOKAHEAD(2) s = createClassStatement()
       | s = createDeputyStatement()
+      | s = insertStatement()
     )
     <SEMICOLON>
     { return s; }
@@ -187,6 +194,7 @@ SimpleExpression simpleExpression():
     (
         ( value = identifier() { type = PropertyType.CHAR; } )
       | ( value = integer() { type = PropertyType.INT;} )
+      | ( value = string() { type = PropertyType.CHAR; } )
     )
     { return new SimpleExpression(value, type); }
 }
@@ -314,4 +322,67 @@ CreateDeputyStatement createDeputyStatement():
     propertyList = propertyList()
     select = selectStatement()
     { return new CreateDeputyStatement(className, propertyList, select); }
+}
+
+InsertStatement insertStatement():
+{
+    String className;
+    List<String> propertyList;
+    List<SimpleExpression> valueList;
+}
+{
+    <INSERT> <INTO>
+    className = identifier()
+    propertyList = identifierList()
+    <VALUES>
+    valueList = valueList()
+    { return new InsertStatement(className, propertyList, valueList); }
+}
+
+List<String> identifierList():
+{
+    List<String> identifierList = new ArrayList<String>();
+    String identifier;
+}
+{
+    [
+        <LEFT_BRACKET>
+        identifier = identifier() { identifierList.add(identifier); }
+        (
+            <COMMA>
+            identifier = identifier() { identifierList.add(identifier); }
+        )*
+        <RIGHT_BRACKET>
+    ]
+    { return identifierList; }
+}
+
+List<SimpleExpression> valueList():
+{
+    List<SimpleExpression> valueList = new ArrayList<SimpleExpression>();
+    SimpleExpression value;
+}
+{
+    [
+        <LEFT_BRACKET>
+        value = simpleExpression() { valueList.add(value); }
+        (
+            <COMMA>
+            value = simpleExpression() { valueList.add(value); }
+        )*
+        <RIGHT_BRACKET>
+    ]
+    { return valueList; }
+}
+
+String string():
+{
+    Token token;
+}
+{
+    token = <STRING>
+    {
+        String image = token.image;
+        return image.substring(1, image.length() - 1);
+    }
 }

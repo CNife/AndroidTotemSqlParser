@@ -12,22 +12,25 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
     public static final String[] jjstrLiteralImages = {
             "", null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null, null, "\55\76", "\54", "\56", "\73",
-            "\50", "\51", null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null,};
+            "\50", "\51", "\47", null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null,};
     /** Lexer state names. */
     public static final String[] lexStateNames = {
             "DEFAULT",
     };
+    static final long[] jjbitVec0 = {
+            0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
+    };
     static final int[] jjnextStates = {
     };
     static final long[] jjtoToken = {
-            0xc01fcfffe1L,
+            0x11803fcfffe1L,
     };
     static final long[] jjtoSkip = {
             0x1eL,
     };
-    private final int[] jjrounds = new int[17];
-    private final int[] jjstateSet = new int[2 * 17];
+    private final int[] jjrounds = new int[20];
+    private final int[] jjstateSet = new int[2 * 20];
     /** Debug output. */
     public java.io.PrintStream debugStream = System.out;
     protected SimpleCharStream input_stream;
@@ -63,38 +66,40 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
         switch (pos) {
             case 0:
                 if ((active0 & 0xc0L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     return 5;
                 }
                 if ((active0 & 0x7e720L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     return 14;
                 }
+                if ((active0 & 0x10000000L) != 0L)
+                    return 20;
                 if ((active0 & 0x1800L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     return 1;
                 }
                 if ((active0 & 0x400000L) != 0L) {
-                    jjmatchedKind = 28;
+                    jjmatchedKind = 29;
                     return -1;
                 }
                 return -1;
             case 1:
-                if ((active0 & 0x20L) != 0L)
-                    return 14;
                 if ((active0 & 0x1800L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 1;
                     return 0;
                 }
+                if ((active0 & 0x20L) != 0L)
+                    return 14;
                 if ((active0 & 0x7e7c0L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 1;
                     return 14;
                 }
                 if ((active0 & 0x400000L) != 0L) {
                     if (jjmatchedPos == 0) {
-                        jjmatchedKind = 28;
+                        jjmatchedKind = 29;
                         jjmatchedPos = 0;
                     }
                     return -1;
@@ -109,14 +114,14 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                     return 14;
                 }
                 if ((active0 & 0x76fc0L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 2;
                     return 14;
                 }
                 return -1;
             case 3:
                 if ((active0 & 0x769c0L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 3;
                     return 14;
                 }
@@ -127,7 +132,7 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                 if ((active0 & 0x40040L) != 0L)
                     return 14;
                 if ((active0 & 0x36980L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 4;
                     return 14;
                 }
@@ -138,35 +143,35 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                 return -1;
             case 6:
                 if ((active0 & 0x4000L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 6;
                     return 14;
                 }
                 return -1;
             case 7:
                 if ((active0 & 0x4000L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 7;
                     return 14;
                 }
                 return -1;
             case 8:
                 if ((active0 & 0x4000L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 8;
                     return 14;
                 }
                 return -1;
             case 9:
                 if ((active0 & 0x4000L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 9;
                     return 14;
                 }
                 return -1;
             case 10:
                 if ((active0 & 0x4000L) != 0L) {
-                    jjmatchedKind = 38;
+                    jjmatchedKind = 39;
                     jjmatchedPos = 10;
                     return 14;
                 }
@@ -188,6 +193,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
 
     private int jjMoveStringLiteralDfa0_0() {
         switch (curChar) {
+            case 39:
+                return jjStartNfaWithStates_0(0, 28, 20);
             case 40:
                 return jjStopAtPos(0, 26);
             case 41:
@@ -564,7 +571,7 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
 
     private int jjMoveNfa_0(int startState, int curPos) {
         int startsAt = 0;
-        jjnewStateCnt = 17;
+        jjnewStateCnt = 20;
         int i = 1;
         jjstateSet[0] = startState;
         int kind = 0x7fffffff;
@@ -577,14 +584,16 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                     switch (jjstateSet[--i]) {
                         case 2:
                             if ((0x3fe000000000000L & l) != 0L) {
-                                if (kind > 39)
-                                    kind = 39;
+                                if (kind > 40)
+                                    kind = 40;
                                 {
                                     jjCheckNAdd(16);
                                 }
                             } else if ((0x7000a40000000000L & l) != 0L) {
-                                if (kind > 28)
-                                    kind = 28;
+                                if (kind > 29)
+                                    kind = 29;
+                            } else if (curChar == 39) {
+                                jjCheckNAddTwoStates(18, 19);
                             }
                             if (curChar == 62)
                                 jjstateSet[jjnewStateCnt++] = 10;
@@ -595,8 +604,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                         case 14:
                             if ((0x3ff000000000000L & l) == 0L)
                                 break;
-                            if (kind > 38)
-                                kind = 38;
+                            if (kind > 39)
+                                kind = 39;
                         {
                             jjCheckNAdd(14);
                         }
@@ -604,8 +613,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                         case 1:
                             if ((0x3ff000000000000L & l) == 0L)
                                 break;
-                            if (kind > 38)
-                                kind = 38;
+                            if (kind > 39)
+                                kind = 39;
                         {
                             jjCheckNAdd(14);
                         }
@@ -613,19 +622,27 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                         case 0:
                             if ((0x3ff000000000000L & l) == 0L)
                                 break;
-                            if (kind > 38)
-                                kind = 38;
+                            if (kind > 39)
+                                kind = 39;
                         {
                             jjCheckNAdd(14);
                         }
                         break;
+                        case 20:
+                            if ((0xffffff7fffffffffL & l) != 0L) {
+                                jjCheckNAddTwoStates(18, 19);
+                            } else if (curChar == 39) {
+                                if (kind > 44)
+                                    kind = 44;
+                            }
+                            break;
                         case 7:
-                            if ((0x7000a40000000000L & l) != 0L && kind > 28)
-                                kind = 28;
+                            if ((0x7000a40000000000L & l) != 0L && kind > 29)
+                                kind = 29;
                             break;
                         case 8:
-                            if (curChar == 61 && kind > 28)
-                                kind = 28;
+                            if (curChar == 61 && kind > 29)
+                                kind = 29;
                             break;
                         case 9:
                             if (curChar == 60)
@@ -636,8 +653,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                                 jjstateSet[jjnewStateCnt++] = 11;
                             break;
                         case 11:
-                            if (curChar == 43)
-                                kind = 28;
+                            if (curChar == 43 && kind > 29)
+                                kind = 29;
                             break;
                         case 12:
                             if (curChar == 62)
@@ -646,8 +663,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                         case 15:
                             if ((0x3fe000000000000L & l) == 0L)
                                 break;
-                            if (kind > 39)
-                                kind = 39;
+                            if (kind > 40)
+                                kind = 40;
                         {
                             jjCheckNAdd(16);
                         }
@@ -655,12 +672,26 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                         case 16:
                             if ((0x3ff000000000000L & l) == 0L)
                                 break;
-                            if (kind > 39)
-                                kind = 39;
+                            if (kind > 40)
+                                kind = 40;
                         {
                             jjCheckNAdd(16);
                         }
                         break;
+                        case 17:
+                            if (curChar == 39) {
+                                jjCheckNAddTwoStates(18, 19);
+                            }
+                            break;
+                        case 18:
+                            if ((0xffffff7fffffffffL & l) != 0L) {
+                                jjCheckNAddTwoStates(18, 19);
+                            }
+                            break;
+                        case 19:
+                            if (curChar == 39 && kind > 44)
+                                kind = 44;
+                            break;
                         default:
                             break;
                     }
@@ -671,8 +702,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                     switch (jjstateSet[--i]) {
                         case 2:
                             if ((0x7fffffe07fffffeL & l) != 0L) {
-                                if (kind > 38)
-                                    kind = 38;
+                                if (kind > 39)
+                                    kind = 39;
                                 {
                                     jjCheckNAdd(14);
                                 }
@@ -684,8 +715,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                             break;
                         case 5:
                             if ((0x7fffffe07fffffeL & l) != 0L) {
-                                if (kind > 38)
-                                    kind = 38;
+                                if (kind > 39)
+                                    kind = 39;
                                 {
                                     jjCheckNAdd(14);
                                 }
@@ -695,8 +726,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                             break;
                         case 1:
                             if ((0x7fffffe07fffffeL & l) != 0L) {
-                                if (kind > 38)
-                                    kind = 38;
+                                if (kind > 39)
+                                    kind = 39;
                                 {
                                     jjCheckNAdd(14);
                                 }
@@ -706,8 +737,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                             break;
                         case 0:
                             if ((0x7fffffe07fffffeL & l) != 0L) {
-                                if (kind > 38)
-                                    kind = 38;
+                                if (kind > 39)
+                                    kind = 39;
                                 {
                                     jjCheckNAdd(14);
                                 }
@@ -717,6 +748,11 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                                     kind = 19;
                             }
                             break;
+                        case 20:
+                        case 18: {
+                            jjCheckNAddTwoStates(18, 19);
+                        }
+                        break;
                         case 3:
                             if ((0x4000000040000L & l) != 0L && kind > 19)
                                 kind = 19;
@@ -732,8 +768,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                         case 13:
                             if ((0x7fffffe07fffffeL & l) == 0L)
                                 break;
-                            if (kind > 38)
-                                kind = 38;
+                            if (kind > 39)
+                                kind = 39;
                         {
                             jjCheckNAdd(14);
                         }
@@ -741,8 +777,8 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                         case 14:
                             if ((0x7fffffe07fffffeL & l) == 0L)
                                 break;
-                            if (kind > 38)
-                                kind = 38;
+                            if (kind > 39)
+                                kind = 39;
                         {
                             jjCheckNAdd(14);
                         }
@@ -756,6 +792,12 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                 long l2 = 1L << (curChar & 077);
                 do {
                     switch (jjstateSet[--i]) {
+                        case 20:
+                        case 18:
+                            if ((jjbitVec0[i2] & l2) != 0L) {
+                                jjCheckNAddTwoStates(18, 19);
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -767,7 +809,7 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
                 kind = 0x7fffffff;
             }
             ++curPos;
-            if ((i = jjnewStateCnt) == (startsAt = 17 - (jjnewStateCnt = startsAt)))
+            if ((i = jjnewStateCnt) == (startsAt = 20 - (jjnewStateCnt = startsAt)))
                 return curPos;
             try {
                 curChar = input_stream.readChar();
@@ -893,7 +935,7 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
     private void ReInitRounds() {
         int i;
         jjround = 0x80000001;
-        for (i = 17; i-- > 0; )
+        for (i = 20; i-- > 0; )
             jjrounds[i] = 0x80000000;
     }
 

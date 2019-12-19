@@ -106,25 +106,25 @@ public class TokenMgrError extends Error {
         return retval.toString();
     }
 
-  /**
-   * Returns a detailed message for the Error when it is thrown by the
-   * token manager to indicate a lexical error.
-   * Parameters :
-   *    EOFSeen     : indicates if EOF caused the lexical error
-   *    curLexState : lexical state in which this error occurred
-   *    errorLine   : line number when the error occurred
-   *    errorColumn : column number when the error occurred
-   *    errorAfter  : prefix that was seen before this error occurred
+    /**
+     * Returns a detailed message for the Error when it is thrown by the
+     * token manager to indicate a lexical error.
+     * Parameters :
+     *    EOFSeen     : indicates if EOF caused the lexical error
+     *    curLexState : lexical state in which this error occurred
+     *    errorLine   : line number when the error occurred
+     *    errorColumn : column number when the error occurred
+     *    errorAfter  : prefix that was seen before this error occurred
    *    curchar     : the offending character
-   * Note: You can customize the lexical error message by modifying this method.
-   */
-  protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
-      return ("Lexical error at line " +
-              errorLine + ", column " +
-              errorColumn + ".  Encountered: " +
-              (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int) curChar + "), ") +
-              "after : \"" + addEscapes(errorAfter) + "\"");
-  }
+     * Note: You can customize the lexical error message by modifying this method.
+     */
+    protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
+        return ("Lexical error at line " +
+                errorLine + ", column " +
+                errorColumn + ".  Encountered: " +
+                (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int) curChar + "), ") +
+                "after : \"" + addEscapes(errorAfter) + "\"");
+    }
 
     /**
      * You can also modify the body of this method to customize your error messages.
