@@ -96,7 +96,7 @@ SelectStatement selectStatement():
 {
     List<Projection> projectionList;
     String className;
-    WhereClause whereClause;
+    WhereClause whereClause = null;
     Token token;
 }
 {
@@ -104,8 +104,10 @@ SelectStatement selectStatement():
     projectionList = projectionList()
     <FROM>
     token = <IDENTIFIER> { className = token.image; }
-    <WHERE>
-    whereClause = whereClause()
+    [
+        <WHERE>
+        whereClause = whereClause()
+    ]
     { return new SelectStatement(projectionList, className, whereClause); }
 }
 
