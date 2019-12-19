@@ -18,11 +18,12 @@ fun testParse(name: String) {
 }
 
 fun main() {
-    testParse("select")
-    testParse("create_class")
-    testParse("create_deputy")
-    testParse("insert")
-    testParse("update")
-    testParse("delete")
-    testParse("drop")
+//    testParse("select")
+//    testParse("create_class")
+//    testParse("create_deputy")
+//    testParse("insert")
+//    testParse("update")
+//    testParse("delete")
+//    testParse("drop")
+    testParse("all")
 }
