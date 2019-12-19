@@ -40,16 +40,26 @@ public interface AndroidTotemSqlParserConstants {
   int VALUES = 17;
   /** RegularExpression Id. */
   int WHERE = 18;
-  /** RegularExpression Id. */
-  int TYPE = 19;
-  /** RegularExpression Id. */
-  int INT = 20;
-  /** RegularExpression Id. */
-  int CHAR = 21;
-  /** RegularExpression Id. */
-  int ARROW = 22;
-  /** RegularExpression Id. */
-  int COMMA = 23;
+    /**
+     * RegularExpression Id.
+     */
+    int TYPE = 19;
+    /**
+     * RegularExpression Id.
+     */
+    int INT = 20;
+    /**
+     * RegularExpression Id.
+     */
+    int CHAR = 21;
+    /**
+     * RegularExpression Id.
+     */
+    int ARROW = 22;
+    /**
+     * RegularExpression Id.
+     */
+    int COMMA = 23;
     /**
      * RegularExpression Id.
      */

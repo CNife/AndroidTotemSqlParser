@@ -105,6 +105,7 @@ Statement statement():
       | LOOKAHEAD(2) s = createClassStatement()
       | s = createDeputyStatement()
       | s = insertStatement()
+      | s = updateStatement()
     )
     <SEMICOLON>
     { return s; }
@@ -384,5 +385,27 @@ String string():
     {
         String image = token.image;
         return image.substring(1, image.length() - 1);
+    }
+}
+
+UpdateStatement updateStatement():
+{
+    String className;
+    String propertyName;
+    SimpleExpression propertyValue;
+    WhereClause whereClause;
+    BinaryExpression expression;
+}
+{
+    <UPDATE>
+    className = identifier()
+    <SET>
+    expression = binaryExpression()
+    <WHERE>
+    whereClause = whereClause()
+    {
+        propertyName = (String) expression.left.value;
+        propertyValue = expression.right;
+        return new UpdateStatement(className, propertyName, propertyValue, whereClause);
     }
 }

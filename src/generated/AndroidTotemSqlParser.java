@@ -102,7 +102,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{0x2880, 0x2000, 0x880, 0x40000, 0x800000, 0x4000000, 0x0, 0x20, 0x0, 0x400000, 0x800000, 0x4000000, 0x800000, 0x4000000, 0x800000, 0x4000000,};
+        jj_la1_0 = new int[]{0x12880, 0x2000, 0x10880, 0x40000, 0x800000, 0x4000000, 0x0, 0x20, 0x0, 0x400000, 0x800000, 0x4000000, 0x800000, 0x4000000, 0x800000, 0x4000000,};
     }
 
     private static void jj_la1_init_1() {
@@ -119,7 +119,8 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                     case CREATE:
                     case INSERT:
-                    case SELECT: {
+                    case SELECT:
+                    case UPDATE: {
                         break;
                     }
                     default:
@@ -160,6 +161,10 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                             }
                             case INSERT: {
                                 s = insertStatement();
+                                break;
+                            }
+                            case UPDATE: {
+                                s = updateStatement();
                                 break;
                             }
                             default:
@@ -672,6 +677,31 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
             throw new Error("Missing return statement in function");
         } finally {
             trace_return("string");
+        }
+    }
+
+    final public UpdateStatement updateStatement() throws ParseException {
+        trace_call("updateStatement");
+        try {
+            String className;
+            String propertyName;
+            SimpleExpression propertyValue;
+            WhereClause whereClause;
+            BinaryExpression expression;
+            jj_consume_token(UPDATE);
+            className = identifier();
+            jj_consume_token(SET);
+            expression = binaryExpression();
+            jj_consume_token(WHERE);
+            whereClause = whereClause();
+            propertyName = (String) expression.left.value;
+            propertyValue = expression.right;
+            {
+                if ("" != null) return new UpdateStatement(className, propertyName, propertyValue, whereClause);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("updateStatement");
         }
     }
 

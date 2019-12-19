@@ -1,4 +1,4 @@
-Remove-Item -Path ".\src\generated\" -Include "*.java"
+Remove-Item -Path ".\src\generated\*.java"
 
 java -classpath "C:\Code\javacc-6.0\bin\lib\javacc.jar" `
     javacc `

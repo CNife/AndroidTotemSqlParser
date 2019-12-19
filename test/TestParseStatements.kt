@@ -22,4 +22,5 @@ fun main() {
     testParse("create_class")
     testParse("create_deputy")
     testParse("insert")
+    testParse("update")
 }
