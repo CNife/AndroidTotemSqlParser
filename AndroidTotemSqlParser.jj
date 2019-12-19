@@ -96,7 +96,8 @@ Statement statement():
 {
     (
         s = selectStatement()
-      | s = createClassStatement()
+      | LOOKAHEAD(2) s = createClassStatement()
+      | s = createDeputyStatement()
     )
     <SEMICOLON>
     { return s; }
@@ -267,15 +268,17 @@ List<Property> propertyList():
     Property property;
 }
 {
-    <LEFT_BRACKET>
-    property = property()
-    { propertyList.add(property); }
-    (
-        <COMMA>
+    [
+        <LEFT_BRACKET>
         property = property()
         { propertyList.add(property); }
-    )*
-    <RIGHT_BRACKET>
+        (
+            <COMMA>
+            property = property()
+            { propertyList.add(property); }
+        )*
+        <RIGHT_BRACKET>
+    ]
     { return propertyList; }
 }
 
@@ -297,4 +300,18 @@ PropertyType propertyType():
 {
     token = <TYPE>
     { return PropertyType.typeOf(token.image); }
+}
+
+CreateDeputyStatement createDeputyStatement():
+{
+    String className;
+    List<Property> propertyList;
+    SelectStatement select;
+}
+{
+    <CREATE> <SELECTDEPUTY>
+    className = identifier()
+    propertyList = propertyList()
+    select = selectStatement()
+    { return new CreateDeputyStatement(className, propertyList, select); }
 }

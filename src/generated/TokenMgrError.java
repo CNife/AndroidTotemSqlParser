@@ -20,14 +20,13 @@ public class TokenMgrError extends Error {
      */
     static final int STATIC_LEXER_ERROR = 1;
     /**
-     * Detected (and bailed out of) an infinite loop in the token manager.
-     */
-    static final int LOOP_DETECTED = 3;
-
-    /**
      * Tried to change to an invalid lexical state.
      */
     static final int INVALID_LEXICAL_STATE = 2;
+    /**
+     * Detected (and bailed out of) an infinite loop in the token manager.
+     */
+    static final int LOOP_DETECTED = 3;
     /**
      * The version identifier for this Serializable class.
      * Increment only if the <i>serialized</i> form of the
@@ -97,15 +96,15 @@ public class TokenMgrError extends Error {
                 default:
                     if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
                         String s = "0000" + Integer.toString(ch, 16);
-            retval.append("\\u" + s.substring(s.length() - 4));
-          } else {
-            retval.append(ch);
-          }
-          continue;
-      }
+                        retval.append("\\u" + s.substring(s.length() - 4));
+                    } else {
+                        retval.append(ch);
+                    }
+                    continue;
+            }
+        }
+        return retval.toString();
     }
-    return retval.toString();
-  }
 
   /**
    * Returns a detailed message for the Error when it is thrown by the

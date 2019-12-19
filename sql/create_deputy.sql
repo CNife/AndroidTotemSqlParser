@@ -1,0 +1,2 @@
+CREATE SELECTDEPUTY usproduct (sales int) SELECT name AS name, (price / 7) AS usprice FROM product WHERE price > 5000;
+CREATE SELECTDEPUTY jpproduct SELECT id AS id, (price * 15) AS jpprice FROM product WHERE price <= 7000;
