@@ -8,7 +8,15 @@ public class SimpleProjection extends Projection {
     }
 
     @Override
-    public Type getType() {
-        return Type.SIMPLE;
+    public ProjectionType getType() {
+        return ProjectionType.SIMPLE;
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleProjection{" +
+                "name='" + name + '\'' +
+                ", columnName='" + columnName + '\'' +
+                '}';
     }
 }

@@ -2,21 +2,16 @@ package ast;
 
 public class WhereClause {
 
-    public String left;
-    public Expression right;
-    public BooleanOperatorType operator;
+    public BinaryExpression expression;
 
-    public WhereClause(String left, Expression right, BooleanOperatorType operator) {
-        this.left = left;
-        this.right = right;
-        this.operator = operator;
+    public WhereClause(BinaryExpression expression) {
+        this.expression = expression;
     }
 
-    public enum BooleanOperatorType {
-        EQUALS,
-        LESS_THAN,
-        GREATER_THAN,
-        LESS_THAN_OR_EQUALS,
-        GREATER_THAN_OR_EQUALS,
+    @Override
+    public String toString() {
+        return "WhereClause{" +
+                "expression=" + expression +
+                '}';
     }
 }

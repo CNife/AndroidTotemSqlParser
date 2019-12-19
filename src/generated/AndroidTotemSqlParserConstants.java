@@ -28,112 +28,165 @@ public interface AndroidTotemSqlParserConstants {
   int INSERT = 11;
   /** RegularExpression Id. */
   int INTO = 12;
-    /** RegularExpression Id. */
+  /** RegularExpression Id. */
   int SELECT = 13;
-    /** RegularExpression Id. */
+  /** RegularExpression Id. */
   int SELECTDEPUTY = 14;
-    /** RegularExpression Id. */
+  /** RegularExpression Id. */
   int SET = 15;
-    /** RegularExpression Id. */
+  /** RegularExpression Id. */
   int UPDATE = 16;
-    /** RegularExpression Id. */
+  /** RegularExpression Id. */
   int VALUES = 17;
-    /** RegularExpression Id. */
+  /** RegularExpression Id. */
   int WHERE = 18;
-    /** RegularExpression Id. */
+  /** RegularExpression Id. */
   int TYPE = 19;
-    /** RegularExpression Id. */
+  /**
+   * RegularExpression Id.
+   */
   int INT = 20;
-    /** RegularExpression Id. */
+  /**
+   * RegularExpression Id.
+   */
   int CHAR = 21;
-    /** RegularExpression Id. */
+  /**
+   * RegularExpression Id.
+   */
   int ARROW = 22;
-    /** RegularExpression Id. */
+  /**
+   * RegularExpression Id.
+   */
   int COMMA = 23;
-    /** RegularExpression Id. */
+  /**
+   * RegularExpression Id.
+   */
   int DOT = 24;
-    /** RegularExpression Id. */
-  int EQUALS = 25;
-    /** RegularExpression Id. */
-  int SEMICOLON = 26;
-    /** RegularExpression Id. */
-  int LEFT_BRACKET = 27;
-    /** RegularExpression Id. */
-  int RIGHT_BRACKET = 28;
-    /** RegularExpression Id. */
-  int LESS_THAN = 29;
-    /** RegularExpression Id. */
-  int GREATER_THAN = 30;
-    /** RegularExpression Id. */
-  int LESS_THAN_OR_EQUALS = 31;
-    /** RegularExpression Id. */
-  int GREATER_THAN_OR_EQUALS = 32;
-    /** RegularExpression Id. */
-  int ADD = 33;
-    /** RegularExpression Id. */
-  int MINUS = 34;
-    /** RegularExpression Id. */
-  int MULTIPLY = 35;
-    /** RegularExpression Id. */
-  int DIVIDE = 36;
-    /** RegularExpression Id. */
-  int IDENTIFIER = 37;
-    /** RegularExpression Id. */
-  int INTEGER_LITERAL = 38;
-    /** RegularExpression Id. */
-  int LETTER = 39;
-    /** RegularExpression Id. */
-  int DIGIT = 40;
-    /** RegularExpression Id. */
-  int LEADING_DIGIT = 41;
+  /**
+   * RegularExpression Id.
+   */
+  int SEMICOLON = 25;
+  /**
+   * RegularExpression Id.
+   */
+  int LEFT_BRACKET = 26;
+  /**
+   * RegularExpression Id.
+   */
+  int RIGHT_BRACKET = 27;
+  /**
+   * RegularExpression Id.
+   */
+  int BINARY_OPERATOR = 28;
+  /**
+   * RegularExpression Id.
+   */
+  int EQUALS = 29;
+  /**
+   * RegularExpression Id.
+   */
+  int LESS_THAN = 30;
+  /**
+   * RegularExpression Id.
+   */
+  int GREATER_THAN = 31;
+  /**
+   * RegularExpression Id.
+   */
+  int LESS_THAN_OR_EQUALS = 32;
+  /**
+   * RegularExpression Id.
+   */
+  int GREATER_THAN_OR_EQUALS = 33;
+  /**
+   * RegularExpression Id.
+   */
+  int ADD = 34;
+  /**
+   * RegularExpression Id.
+   */
+  int MINUS = 35;
+  /**
+   * RegularExpression Id.
+   */
+  int MULTIPLY = 36;
+  /**
+   * RegularExpression Id.
+   */
+  int DIVIDE = 37;
+  /**
+   * RegularExpression Id.
+   */
+  int IDENTIFIER = 38;
+  /**
+   * RegularExpression Id.
+   */
+  int INTEGER_LITERAL = 39;
+  /**
+   * RegularExpression Id.
+   */
+  int LETTER = 40;
+  /**
+   * RegularExpression Id.
+   */
+  int DIGIT = 41;
+  /**
+   * RegularExpression Id.
+   */
+  int LEADING_DIGIT = 42;
 
-    /** Lexical state. */
+  /**
+   * Lexical state.
+   */
   int DEFAULT = 0;
 
-    /** Literal token values. */
+  /**
+   * Literal token values.
+   */
   String[] tokenImage = {
-            "<EOF>",
-            "\" \"",
-            "\"\\t\"",
-            "\"\\r\"",
-            "\"\\n\"",
-            "\"AS\"",
-            "\"CLASS\"",
-            "\"CREATE\"",
-            "\"DELETE\"",
-            "\"DROP\"",
-            "\"FROM\"",
-            "\"INSERT\"",
-            "\"INTO\"",
-            "\"SELECT\"",
-            "\"SELECTDEPUTY\"",
-            "\"SET\"",
-            "\"UPDATE\"",
-            "\"VALUES\"",
-            "\"WHERE\"",
-            "<TYPE>",
-            "\"INT\"",
-            "\"CHAR\"",
-            "\"->\"",
-            "\",\"",
-            "\".\"",
-            "\"=\"",
-            "\";\"",
-            "\"(\"",
-            "\")\"",
-            "\"<\"",
-            "\">\"",
-            "\"<=\"",
-            "\">=\"",
-            "\"+\"",
-            "\"-\"",
-            "\"*\"",
-            "\"/\"",
-            "<IDENTIFIER>",
-            "<INTEGER_LITERAL>",
-            "<LETTER>",
-            "<DIGIT>",
-            "<LEADING_DIGIT>",
+          "<EOF>",
+          "\" \"",
+          "\"\\t\"",
+          "\"\\r\"",
+          "\"\\n\"",
+          "\"AS\"",
+          "\"CLASS\"",
+          "\"CREATE\"",
+          "\"DELETE\"",
+          "\"DROP\"",
+          "\"FROM\"",
+          "\"INSERT\"",
+          "\"INTO\"",
+          "\"SELECT\"",
+          "\"SELECTDEPUTY\"",
+          "\"SET\"",
+          "\"UPDATE\"",
+          "\"VALUES\"",
+          "\"WHERE\"",
+          "<TYPE>",
+          "\"INT\"",
+          "\"CHAR\"",
+          "\"->\"",
+          "\",\"",
+          "\".\"",
+          "\";\"",
+          "\"(\"",
+          "\")\"",
+          "<BINARY_OPERATOR>",
+          "\"=\"",
+          "\"<\"",
+          "\">\"",
+          "\"<=\"",
+          "\">=\"",
+          "\"+\"",
+          "\"-\"",
+          "\"*\"",
+          "\"/\"",
+          "<IDENTIFIER>",
+          "<INTEGER_LITERAL>",
+          "<LETTER>",
+          "<DIGIT>",
+          "<LEADING_DIGIT>",
   };
 
 }

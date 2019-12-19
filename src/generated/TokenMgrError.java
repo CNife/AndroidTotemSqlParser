@@ -16,16 +16,16 @@ public class TokenMgrError extends Error {
 
     /*
      * Ordinals for various reasons why an Error of this type can be thrown.
-   */
+     */
 
-  /**
-   * Lexical error occurred.
-   */
-  static final int LEXICAL_ERROR = 0;
+    /**
+     * Lexical error occurred.
+     */
+    static final int LEXICAL_ERROR = 0;
 
-  /**
-   * An attempt was made to create a second instance of a static token manager.
-   */
+    /**
+     * An attempt was made to create a second instance of a static token manager.
+     */
   static final int STATIC_LEXER_ERROR = 1;
 
   /**
@@ -33,16 +33,16 @@ public class TokenMgrError extends Error {
    */
   static final int INVALID_LEXICAL_STATE = 2;
 
-  /**
-   * Detected (and bailed out of) an infinite loop in the token manager.
-   */
-  static final int LOOP_DETECTED = 3;
+    /**
+     * Detected (and bailed out of) an infinite loop in the token manager.
+     */
+    static final int LOOP_DETECTED = 3;
 
-  /**
-   * Indicates the reason why the exception is thrown. It will have
-   * one of the above 4 values.
-   */
-  int errorCode;
+    /**
+     * Indicates the reason why the exception is thrown. It will have
+     * one of the above 4 values.
+     */
+    int errorCode;
 
     /**
      * No arg constructor.
@@ -59,16 +59,10 @@ public class TokenMgrError extends Error {
     }
 
     /**
-     * You can also modify the body of this method to customize your error messages.
-     * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
-     * of end-users concern, so you can return something like :
-     * <p>
-     * "Internal Error : Please file a bug report .... "
-     * <p>
-     * from this method for such cases in the release version of your parser.
+     * Full Constructor.
      */
-    public String getMessage() {
-        return super.getMessage();
+    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
+        this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
     }
 
     /*
@@ -76,40 +70,33 @@ public class TokenMgrError extends Error {
      */
 
     /**
-     * Full Constructor.
-     */
-    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
-        this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
-    }
-
-    /**
      * Replaces unprintable characters by their escaped (or unicode escaped)
      * equivalents in the given string
      */
-  protected static final String addEscapes(String str) {
-    StringBuffer retval = new StringBuffer();
-      char ch;
-      for (int i = 0; i < str.length(); i++) {
-          switch (str.charAt(i)) {
-              case 0:
-                  continue;
-              case '\b':
-                  retval.append("\\b");
-                  continue;
-              case '\t':
-                  retval.append("\\t");
-                  continue;
-              case '\n':
-          retval.append("\\n");
-          continue;
-        case '\f':
-          retval.append("\\f");
-          continue;
-        case '\r':
-          retval.append("\\r");
-          continue;
-        case '\"':
-          retval.append("\\\"");
+    protected static final String addEscapes(String str) {
+        StringBuffer retval = new StringBuffer();
+        char ch;
+        for (int i = 0; i < str.length(); i++) {
+            switch (str.charAt(i)) {
+                case 0:
+                    continue;
+                case '\b':
+                    retval.append("\\b");
+                    continue;
+                case '\t':
+                    retval.append("\\t");
+                    continue;
+                case '\n':
+                    retval.append("\\n");
+                    continue;
+                case '\f':
+                    retval.append("\\f");
+                    continue;
+                case '\r':
+                    retval.append("\\r");
+                    continue;
+                case '\"':
+                    retval.append("\\\"");
           continue;
         case '\'':
           retval.append("\\'");
@@ -149,5 +136,18 @@ public class TokenMgrError extends Error {
               (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int) curChar + "), ") +
               "after : \"" + addEscapes(errorAfter) + "\"");
   }
+
+    /**
+     * You can also modify the body of this method to customize your error messages.
+     * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
+     * of end-users concern, so you can return something like :
+     * <p>
+     * "Internal Error : Please file a bug report .... "
+     * <p>
+     * from this method for such cases in the release version of your parser.
+     */
+    public String getMessage() {
+        return super.getMessage();
+    }
 }
 /* JavaCC - OriginalChecksum=ee21bce3f5aa6be208903709185e866d (do not edit this line) */

@@ -12,7 +12,16 @@ public class CrossClassProjection extends Projection {
     }
 
     @Override
-    public Type getType() {
-        return Type.CROSS_CLASS;
+    public ProjectionType getType() {
+        return ProjectionType.CROSS_CLASS;
+    }
+
+    @Override
+    public String toString() {
+        return "CrossClassProjection{" +
+                "name='" + name + '\'' +
+                ", classList=" + classList +
+                ", propertyName='" + propertyName + '\'' +
+                '}';
     }
 }

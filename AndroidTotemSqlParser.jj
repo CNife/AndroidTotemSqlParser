@@ -16,7 +16,7 @@ public class AndroidTotemSqlParser {
 
 PARSER_END(AndroidTotemSqlParser)
 
-// 跳过空白字符
+// 空白字符
 SKIP : { " " | "\t" | "\r" | "\n" }
 
 // 关键字
@@ -44,23 +44,29 @@ TOKEN : {
     | <#CHAR: "CHAR">
 }
 
-// 运算符
+// 定界符
 TOKEN : {
       <ARROW: "->">
     | <COMMA: ",">
     | <DOT: ".">
-    | <EQUALS: "=">
     | <SEMICOLON: ";">
     | <LEFT_BRACKET: "(">
     | <RIGHT_BRACKET: ")">
-    | <LESS_THAN: "<">
-    | <GREATER_THAN: ">">
-    | <LESS_THAN_OR_EQUALS: "<=">
-    | <GREATER_THAN_OR_EQUALS: ">=">
-    | <ADD: "+">
-    | <MINUS: "-">
-    | <MULTIPLY: "*">
-    | <DIVIDE: "/">
+}
+
+// 二元运算符
+TOKEN : {
+      <BINARY_OPERATOR: <EQUALS> | <LESS_THAN> | <GREATER_THAN> | <LESS_THAN_OR_EQUALS> | <GREATER_THAN_OR_EQUALS>
+                        <ADD> | <MINUS> | <MULTIPLY> | <DIVIDE> >
+    | <#EQUALS: "=">
+    | <#LESS_THAN: "<">
+    | <#GREATER_THAN: ">">
+    | <#LESS_THAN_OR_EQUALS: "<=">
+    | <#GREATER_THAN_OR_EQUALS: ">=">
+    | <#ADD: "+">
+    | <#MINUS: "-">
+    | <#MULTIPLY: "*">
+    | <#DIVIDE: "/">
 }
 
 // 标识符和数字
@@ -138,7 +144,8 @@ Projection projection():
 {
     (
       projection = binaryProjection()
-    | projection = simpleOrCrossClassProjection()
+    | LOOKAHEAD(2) projection = crossClassProjection()
+    | projection = simpleProjection()
     )
     [ <AS> name = identifier() ]
     {
@@ -149,17 +156,38 @@ Projection projection():
 
 BinaryProjection binaryProjection():
 {
-    String left;
-    int right;
-    BinaryProjection.OperatorType operator;
+    BinaryExpression expression;
 }
 {
     <LEFT_BRACKET>
-    left = identifier()
-    operator = operator()
-    right = integer()
+    expression = binaryExpression()
     <RIGHT_BRACKET>
-    { return new BinaryProjection(left, new Expression(right), operator); }
+    { return new BinaryProjection(expression); }
+}
+
+BinaryExpression binaryExpression():
+{
+    SimpleExpression left, right;
+    OperatorType operator;
+}
+{
+    left = simpleExpression()
+    operator = operator()
+    right = simpleExpression()
+    { return new BinaryExpression(left, right, operator); }
+}
+
+SimpleExpression simpleExpression():
+{
+    Object value;
+    PropertyType type;
+}
+{
+    (
+        ( value = identifier() { type = PropertyType.CHAR; } )
+      | ( value = integer() { type = PropertyType.INT;} )
+    )
+    { return new SimpleExpression(value, type); }
 }
 
 int integer():
@@ -168,59 +196,48 @@ int integer():
 }
 {
     token = <INTEGER_LITERAL>
-    { return Integer.valueOf(token.image); }
+    { return Integer.parseInt(token.image); }
 }
 
-BinaryProjection.OperatorType operator():
+OperatorType operator():
 {
-    BinaryProjection.OperatorType operator;
+    Token token;
 }
 {
-     <ADD> { return BinaryProjection.OperatorType.ADD; }
-   | <MINUS> { return BinaryProjection.OperatorType.MINUS; }
-   | <MULTIPLY> { return BinaryProjection.OperatorType.MULTIPLY; }
-   | <DIVIDE> { return BinaryProjection.OperatorType.DIVIDE; }
+    token = <BINARY_OPERATOR>
+    { return OperatorType.typeOf(token.image); }
 }
 
-Projection simpleOrCrossClassProjection():
+CrossClassProjection crossClassProjection():
 {
     List<String> classNames = new ArrayList<String>();
     String className;
     String propertyName;
 }
 {
-    LOOKAHEAD(2)
-    (
-        className = identifier() { classNames.add(className); }
-        ( <ARROW> className = identifier() { classNames.add(className); } )+
-        <DOT>
-        propertyName = identifier()
-        { return new CrossClassProjection(classNames, propertyName); }
-    )
-    | token = <IDENTIFIER> { return new SimpleProjection(token.image); }
+    className = identifier() { classNames.add(className); }
+    ( <ARROW> className = identifier() { classNames.add(className); } )+
+    <DOT>
+    propertyName = identifier()
+    { return new CrossClassProjection(classNames, propertyName); }
+}
+
+SimpleProjection simpleProjection():
+{
+    String name;
+}
+{
+    name = identifier()
+    { return new SimpleProjection(name); }
 }
 
 WhereClause whereClause():
 {
-    String left;
-    int right;
-    WhereClause.BooleanOperatorType operator;
+    BinaryExpression expression;
 }
 {
-    left = identifier()
-    operator = booleanOperator()
-    right = integer()
-    { return new WhereClause(left, new Expression(right), operator); }
-}
-
-WhereClause.BooleanOperatorType booleanOperator():
-{}
-{
-      <EQUALS> { return WhereClause.BooleanOperatorType.EQUALS; }
-    | <LESS_THAN> { return WhereClause.BooleanOperatorType.LESS_THAN; }
-    | <GREATER_THAN> { return WhereClause.BooleanOperatorType.GREATER_THAN; }
-    | <LESS_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.LESS_THAN_OR_EQUALS; }
-    | <GREATER_THAN_OR_EQUALS> { return WhereClause.BooleanOperatorType.GREATER_THAN_OR_EQUALS; }
+    expression = binaryExpression()
+    { return new WhereClause(expression); }
 }
 
 String identifier():

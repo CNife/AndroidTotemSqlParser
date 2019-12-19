@@ -287,15 +287,19 @@ public class SimpleCharStream {
         return bufcolumn[bufpos];
     }
 
-  /** Get token end line number. */
-  public int getEndLine() {
-      return bufline[bufpos];
-  }
+    /**
+     * Get token end line number.
+     */
+    public int getEndLine() {
+        return bufline[bufpos];
+    }
 
-  /** Get token beginning column number. */
-  public int getBeginColumn() {
-      return bufcolumn[tokenBegin];
-  }
+    /**
+     * Get token beginning column number.
+     */
+    public int getBeginColumn() {
+        return bufcolumn[tokenBegin];
+    }
 
     /**
      * Get token beginning line number.
@@ -461,7 +465,7 @@ public class SimpleCharStream {
             bufcolumn[j] = newCol + columnDiff;
 
             while (i++ < len) {
-        if (bufline[j = start % bufsize] != bufline[++start % bufsize])
+                if (bufline[j = start % bufsize] != bufline[++start % bufsize])
           bufline[j] = newLine++;
         else
           bufline[j] = newLine;

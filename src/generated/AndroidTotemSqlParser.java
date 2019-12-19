@@ -22,7 +22,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         jj_la1_init_1();
     }
 
-    final private int[] jj_la1 = new int[11];
+    final private int[] jj_la1 = new int[10];
     final private JJCalls[] jj_2_rtns = new JJCalls[1];
     final private LookaheadSuccess jj_ls = new LookaheadSuccess();
     /**
@@ -72,7 +72,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 10; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -85,7 +85,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 10; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -97,16 +97,16 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 10; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
     private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{0x2080, 0x2080, 0x40000, 0x800000, 0x8000000, 0x20, 0x0, 0x400000, 0x0, 0xe2000000, 0x800000,};
+        jj_la1_0 = new int[]{0x2080, 0x2080, 0x40000, 0x800000, 0x4000000, 0x0, 0x20, 0x0, 0x400000, 0x800000,};
     }
 
     private static void jj_la1_init_1() {
-        jj_la1_1 = new int[]{0x0, 0x0, 0x0, 0x0, 0x20, 0x0, 0x1e, 0x0, 0x20, 0x1, 0x0,};
+        jj_la1_1 = new int[]{0x0, 0x0, 0x0, 0x0, 0x0, 0x40, 0x0, 0xc0, 0x0, 0x0,};
     }
 
     final public List<Statement> statements() throws ParseException {
@@ -234,14 +234,22 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     projection = binaryProjection();
                     break;
                 }
-                case IDENTIFIER: {
-                    projection = simpleOrCrossClassProjection();
-                    break;
-                }
                 default:
                     jj_la1[4] = jj_gen;
-                    jj_consume_token(-1);
-                    throw new ParseException();
+                    if (jj_2_1(2)) {
+                        projection = crossClassProjection();
+                    } else {
+                        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                            case IDENTIFIER: {
+                                projection = simpleProjection();
+                                break;
+                            }
+                            default:
+                                jj_la1[5] = jj_gen;
+                                jj_consume_token(-1);
+                                throw new ParseException();
+                        }
+                    }
             }
             switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
                 case AS: {
@@ -250,7 +258,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     break;
                 }
                 default:
-                    jj_la1[5] = jj_gen;
+                    jj_la1[6] = jj_gen;
             }
             projection.name = name;
             {
@@ -265,20 +273,63 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     final public BinaryProjection binaryProjection() throws ParseException {
         trace_call("binaryProjection");
         try {
-            String left;
-            int right;
-            BinaryProjection.OperatorType operator;
+            BinaryExpression expression;
             jj_consume_token(LEFT_BRACKET);
-            left = identifier();
-            operator = operator();
-            right = integer();
+            expression = binaryExpression();
             jj_consume_token(RIGHT_BRACKET);
             {
-                if ("" != null) return new BinaryProjection(left, new Expression(right), operator);
+                if ("" != null) return new BinaryProjection(expression);
             }
             throw new Error("Missing return statement in function");
         } finally {
             trace_return("binaryProjection");
+        }
+    }
+
+    final public BinaryExpression binaryExpression() throws ParseException {
+        trace_call("binaryExpression");
+        try {
+            SimpleExpression left, right;
+            OperatorType operator;
+            left = simpleExpression();
+            operator = operator();
+            right = simpleExpression();
+            {
+                if ("" != null) return new BinaryExpression(left, right, operator);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("binaryExpression");
+        }
+    }
+
+    final public SimpleExpression simpleExpression() throws ParseException {
+        trace_call("simpleExpression");
+        try {
+            Object value;
+            PropertyType type;
+            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                case IDENTIFIER: {
+                    value = identifier();
+                    type = PropertyType.CHAR;
+                    break;
+                }
+                case INTEGER_LITERAL: {
+                    value = integer();
+                    type = PropertyType.INT;
+                    break;
+                }
+                default:
+                    jj_la1[7] = jj_gen;
+                    jj_consume_token(-1);
+                    throw new ParseException();
+            }
+            {
+                if ("" != null) return new SimpleExpression(value, type);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("simpleExpression");
         }
     }
 
@@ -288,7 +339,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
             Token token;
             token = jj_consume_token(INTEGER_LITERAL);
             {
-                if ("" != null) return Integer.valueOf(token.image);
+                if ("" != null) return Integer.parseInt(token.image);
             }
             throw new Error("Missing return statement in function");
         } finally {
@@ -296,43 +347,13 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         }
     }
 
-    final public BinaryProjection.OperatorType operator() throws ParseException {
+    final public OperatorType operator() throws ParseException {
         trace_call("operator");
         try {
-            BinaryProjection.OperatorType operator;
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case ADD: {
-                    jj_consume_token(ADD);
-                    {
-                        if ("" != null) return BinaryProjection.OperatorType.ADD;
-                    }
-                    break;
-                }
-                case MINUS: {
-                    jj_consume_token(MINUS);
-                    {
-                        if ("" != null) return BinaryProjection.OperatorType.MINUS;
-                    }
-                    break;
-                }
-                case MULTIPLY: {
-                    jj_consume_token(MULTIPLY);
-                    {
-                        if ("" != null) return BinaryProjection.OperatorType.MULTIPLY;
-                    }
-                    break;
-                }
-                case DIVIDE: {
-                    jj_consume_token(DIVIDE);
-                    {
-                        if ("" != null) return BinaryProjection.OperatorType.DIVIDE;
-                    }
-                    break;
-                }
-                default:
-                    jj_la1[6] = jj_gen;
-                    jj_consume_token(-1);
-                    throw new ParseException();
+            Token token;
+            token = jj_consume_token(BINARY_OPERATOR);
+            {
+                if ("" != null) return OperatorType.typeOf(token.image);
             }
             throw new Error("Missing return statement in function");
         } finally {
@@ -340,120 +361,64 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         }
     }
 
-    final public Projection simpleOrCrossClassProjection() throws ParseException {
-        trace_call("simpleOrCrossClassProjection");
+    final public CrossClassProjection crossClassProjection() throws ParseException {
+        trace_call("crossClassProjection");
         try {
             List<String> classNames = new ArrayList<String>();
             String className;
             String propertyName;
-            if (jj_2_1(2)) {
+            className = identifier();
+            classNames.add(className);
+            label_3:
+            while (true) {
+                jj_consume_token(ARROW);
                 className = identifier();
                 classNames.add(className);
-                label_3:
-                while (true) {
-                    jj_consume_token(ARROW);
-                    className = identifier();
-                    classNames.add(className);
-                    switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                        case ARROW: {
-                            break;
-                        }
-                        default:
-                            jj_la1[7] = jj_gen;
-                            break label_3;
-                    }
-                }
-                jj_consume_token(DOT);
-                propertyName = identifier();
-                {
-                    if ("" != null) return new CrossClassProjection(classNames, propertyName);
-                }
-            } else {
                 switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                    case IDENTIFIER: {
-                        token = jj_consume_token(IDENTIFIER);
-                        {
-                            if ("" != null) return new SimpleProjection(token.image);
-                        }
+                    case ARROW: {
                         break;
                     }
                     default:
                         jj_la1[8] = jj_gen;
-                        jj_consume_token(-1);
-                        throw new ParseException();
+                        break label_3;
                 }
+            }
+            jj_consume_token(DOT);
+            propertyName = identifier();
+            {
+                if ("" != null) return new CrossClassProjection(classNames, propertyName);
             }
             throw new Error("Missing return statement in function");
         } finally {
-            trace_return("simpleOrCrossClassProjection");
+            trace_return("crossClassProjection");
+        }
+    }
+
+    final public SimpleProjection simpleProjection() throws ParseException {
+        trace_call("simpleProjection");
+        try {
+            String name;
+            name = identifier();
+            {
+                if ("" != null) return new SimpleProjection(name);
+            }
+            throw new Error("Missing return statement in function");
+        } finally {
+            trace_return("simpleProjection");
         }
     }
 
     final public WhereClause whereClause() throws ParseException {
         trace_call("whereClause");
         try {
-            String left;
-            int right;
-            WhereClause.BooleanOperatorType operator;
-            left = identifier();
-            operator = booleanOperator();
-            right = integer();
+            BinaryExpression expression;
+            expression = binaryExpression();
             {
-                if ("" != null) return new WhereClause(left, new Expression(right), operator);
+                if ("" != null) return new WhereClause(expression);
             }
             throw new Error("Missing return statement in function");
         } finally {
             trace_return("whereClause");
-        }
-    }
-
-    final public WhereClause.BooleanOperatorType booleanOperator() throws ParseException {
-        trace_call("booleanOperator");
-        try {
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case EQUALS: {
-                    jj_consume_token(EQUALS);
-                    {
-                        if ("" != null) return WhereClause.BooleanOperatorType.EQUALS;
-                    }
-                    break;
-                }
-                case LESS_THAN: {
-                    jj_consume_token(LESS_THAN);
-                    {
-                        if ("" != null) return WhereClause.BooleanOperatorType.LESS_THAN;
-                    }
-                    break;
-                }
-                case GREATER_THAN: {
-                    jj_consume_token(GREATER_THAN);
-                    {
-                        if ("" != null) return WhereClause.BooleanOperatorType.GREATER_THAN;
-                    }
-                    break;
-                }
-                case LESS_THAN_OR_EQUALS: {
-                    jj_consume_token(LESS_THAN_OR_EQUALS);
-                    {
-                        if ("" != null) return WhereClause.BooleanOperatorType.LESS_THAN_OR_EQUALS;
-                    }
-                    break;
-                }
-                case GREATER_THAN_OR_EQUALS: {
-                    jj_consume_token(GREATER_THAN_OR_EQUALS);
-                    {
-                        if ("" != null) return WhereClause.BooleanOperatorType.GREATER_THAN_OR_EQUALS;
-                    }
-                    break;
-                }
-                default:
-                    jj_la1[9] = jj_gen;
-                    jj_consume_token(-1);
-                    throw new ParseException();
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("booleanOperator");
         }
     }
 
@@ -504,7 +469,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                         break;
                     }
                     default:
-                        jj_la1[10] = jj_gen;
+                        jj_la1[9] = jj_gen;
                         break label_4;
                 }
                 jj_consume_token(COMMA);
@@ -563,13 +528,17 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         }
     }
 
-    private boolean jj_3_1() {
-        if (jj_3R_5()) return true;
-        Token xsp;
+    private boolean jj_3R_7() {
+        return jj_scan_token(ARROW);
+    }
+
+    private boolean jj_3R_5() {
         if (jj_3R_6()) return true;
+        Token xsp;
+        if (jj_3R_7()) return true;
         while (true) {
             xsp = jj_scanpos;
-            if (jj_3R_6()) {
+            if (jj_3R_7()) {
                 jj_scanpos = xsp;
                 break;
             }
@@ -578,11 +547,11 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     }
 
     private boolean jj_3R_6() {
-        return jj_scan_token(ARROW);
+        return jj_scan_token(IDENTIFIER);
     }
 
-    private boolean jj_3R_5() {
-        return jj_scan_token(IDENTIFIER);
+    private boolean jj_3_1() {
+        return jj_3R_5();
     }
 
     /**
@@ -605,7 +574,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 10; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -618,7 +587,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 10; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -630,7 +599,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
-        for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+        for (int i = 0; i < 10; i++) jj_la1[i] = -1;
         for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
     }
 
@@ -746,12 +715,12 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
      */
     public ParseException generateParseException() {
         jj_expentries.clear();
-        boolean[] la1tokens = new boolean[42];
+        boolean[] la1tokens = new boolean[43];
         if (jj_kind >= 0) {
             la1tokens[jj_kind] = true;
             jj_kind = -1;
         }
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 10; i++) {
             if (jj_la1[i] == jj_gen) {
                 for (int j = 0; j < 32; j++) {
                     if ((jj_la1_0[i] & (1 << j)) != 0) {
@@ -763,7 +732,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                 }
             }
         }
-        for (int i = 0; i < 42; i++) {
+        for (int i = 0; i < 43; i++) {
             if (la1tokens[i]) {
                 jj_expentry = new int[1];
                 jj_expentry[0] = i;

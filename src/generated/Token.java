@@ -113,7 +113,7 @@ public class Token implements java.io.Serializable {
      * interpreter. This attribute value is often different from the image.
      * Any subclass of Token that actually wants to return a non-null value can
      * override this method as appropriate.
-   */
+     */
     public Object getValue() {
         return null;
     }
@@ -121,9 +121,8 @@ public class Token implements java.io.Serializable {
     /**
      * Returns the image.
      */
-    public String toString()
-  {
-    return image;
+    public String toString() {
+        return image;
   }
 
 }

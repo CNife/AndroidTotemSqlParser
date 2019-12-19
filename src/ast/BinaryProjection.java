@@ -2,25 +2,22 @@ package ast;
 
 public class BinaryProjection extends Projection {
 
-    public String left;
-    public Expression right;
-    public OperatorType operator;
+    public BinaryExpression expression;
 
-    public BinaryProjection(String left, Expression right, OperatorType operator) {
-        this.left = left;
-        this.right = right;
-        this.operator = operator;
+    public BinaryProjection(BinaryExpression expression) {
+        this.expression = expression;
     }
 
     @Override
-    public Projection.Type getType() {
-        return Projection.Type.BINARY;
+    public ProjectionType getType() {
+        return ProjectionType.BINARY;
     }
 
-    public enum OperatorType {
-        ADD,
-        MINUS,
-        MULTIPLY,
-        DIVIDE,
+    @Override
+    public String toString() {
+        return "BinaryProjection{" +
+                "name='" + name + '\'' +
+                ", expression=" + expression +
+                '}';
     }
 }

@@ -18,4 +18,13 @@ public class SelectStatement implements Statement {
     public StatementType getType() {
         return StatementType.SELECT;
     }
+
+    @Override
+    public String toString() {
+        return "SelectStatement{" +
+                "projectionList=" + projectionList +
+                ", className='" + className + '\'' +
+                ", whereClause=" + whereClause +
+                '}';
+    }
 }
