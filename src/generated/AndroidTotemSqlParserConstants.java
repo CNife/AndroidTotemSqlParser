@@ -20,159 +20,83 @@ public interface AndroidTotemSqlParserConstants {
   int CREATE = 7;
   /** RegularExpression Id. */
   int DELETE = 8;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int DROP = 9;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int FROM = 10;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int INSERT = 11;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int INTO = 12;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int SELECT = 13;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int SELECTDEPUTY = 14;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int SET = 15;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int UPDATE = 16;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int VALUES = 17;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int WHERE = 18;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int TYPE = 19;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int INT = 20;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int CHAR = 21;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int ARROW = 22;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int COMMA = 23;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int DOT = 24;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int SEMICOLON = 25;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int LEFT_BRACKET = 26;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int RIGHT_BRACKET = 27;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int SINGLE_QUOTE = 28;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int BINARY_OPERATOR = 29;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int EQUALS = 30;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int LESS_THAN = 31;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int GREATER_THAN = 32;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int LESS_THAN_OR_EQUALS = 33;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int GREATER_THAN_OR_EQUALS = 34;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int ADD = 35;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int MINUS = 36;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int MULTIPLY = 37;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int DIVIDE = 38;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int IDENTIFIER = 39;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int INTEGER_LITERAL = 40;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int LETTER = 41;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int DIGIT = 42;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int LEADING_DIGIT = 43;
-  /**
-   * RegularExpression Id.
-   */
+  /** RegularExpression Id. */
   int STRING = 44;
 
-  /**
-   * Lexical state.
-   */
+  /** Lexical state. */
   int DEFAULT = 0;
 
-  /**
-   * Literal token values.
-   */
+  /** Literal token values. */
   String[] tokenImage = {
           "<EOF>",
           "\" \"",

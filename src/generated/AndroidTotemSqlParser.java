@@ -49,8 +49,6 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     private int jj_kind = -1;
     private int[] jj_lasttokens = new int[100];
     private int jj_endpos;
-    private int trace_indent = 0;
-    private boolean trace_enabled = true;
 
     /**
      * Constructor with InputStream.
@@ -110,644 +108,514 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     }
 
     final public List<Statement> statements() throws ParseException {
-        trace_call("statements");
-        try {
-            List<Statement> statements = new ArrayList<Statement>();
-            Statement s;
-            label_1:
-            while (true) {
-                switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                    case CREATE:
-                    case DELETE:
-                    case DROP:
-                    case INSERT:
-                    case SELECT:
-                    case UPDATE: {
-                        break;
-                    }
-                    default:
-                        jj_la1[0] = jj_gen;
-                        break label_1;
+        List<Statement> statements = new ArrayList<Statement>();
+        Statement s;
+        label_1:
+        while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                case CREATE:
+                case DELETE:
+                case DROP:
+                case INSERT:
+                case SELECT:
+                case UPDATE: {
+                    break;
                 }
-                s = statement();
-                statements.add(s);
+                default:
+                    jj_la1[0] = jj_gen;
+                    break label_1;
             }
-            jj_consume_token(0);
-            {
-                if ("" != null) return statements;
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("statements");
+            s = statement();
+            statements.add(s);
         }
+        jj_consume_token(0);
+        {
+            if ("" != null) return statements;
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public Statement statement() throws ParseException {
-        trace_call("statement");
-        try {
-            Statement s;
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case SELECT: {
-                    s = selectStatement();
-                    break;
-                }
-                default:
-                    jj_la1[1] = jj_gen;
-                    if (jj_2_1(2)) {
-                        s = createClassStatement();
-                    } else {
-                        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                            case CREATE: {
-                                s = createDeputyStatement();
-                                break;
-                            }
-                            case INSERT: {
-                                s = insertStatement();
-                                break;
-                            }
-                            case UPDATE: {
-                                s = updateStatement();
-                                break;
-                            }
-                            case DELETE: {
-                                s = deleteStatement();
-                                break;
-                            }
-                            case DROP: {
-                                s = dropStatement();
-                                break;
-                            }
-                            default:
-                                jj_la1[2] = jj_gen;
-                                jj_consume_token(-1);
-                                throw new ParseException();
+        Statement s;
+        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+            case SELECT: {
+                s = selectStatement();
+                break;
+            }
+            default:
+                jj_la1[1] = jj_gen;
+                if (jj_2_1(2)) {
+                    s = createClassStatement();
+                } else {
+                    switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                        case CREATE: {
+                            s = createDeputyStatement();
+                            break;
                         }
+                        case INSERT: {
+                            s = insertStatement();
+                            break;
+                        }
+                        case UPDATE: {
+                            s = updateStatement();
+                            break;
+                        }
+                        case DELETE: {
+                            s = deleteStatement();
+                            break;
+                        }
+                        case DROP: {
+                            s = dropStatement();
+                            break;
+                        }
+                        default:
+                            jj_la1[2] = jj_gen;
+                            jj_consume_token(-1);
+                            throw new ParseException();
                     }
-            }
-            jj_consume_token(SEMICOLON);
-            {
-                if ("" != null) return s;
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("statement");
+                }
         }
+        jj_consume_token(SEMICOLON);
+        {
+            if ("" != null) return s;
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public SelectStatement selectStatement() throws ParseException {
-        trace_call("selectStatement");
-        try {
-            List<Projection> projectionList;
-            String className;
-            WhereClause whereClause = null;
-            jj_consume_token(SELECT);
-            projectionList = projectionList();
-            jj_consume_token(FROM);
-            className = identifier();
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case WHERE: {
-                    jj_consume_token(WHERE);
-                    whereClause = whereClause();
-                    break;
-                }
-                default:
-                    jj_la1[3] = jj_gen;
+        List<Projection> projectionList;
+        String className;
+        WhereClause whereClause = null;
+        jj_consume_token(SELECT);
+        projectionList = projectionList();
+        jj_consume_token(FROM);
+        className = identifier();
+        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+            case WHERE: {
+                jj_consume_token(WHERE);
+                whereClause = whereClause();
+                break;
             }
-            {
-                if ("" != null) return new SelectStatement(projectionList, className, whereClause);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("selectStatement");
+            default:
+                jj_la1[3] = jj_gen;
         }
+        {
+            if ("" != null) return new SelectStatement(projectionList, className, whereClause);
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public List<Projection> projectionList() throws ParseException {
-        trace_call("projectionList");
-        try {
-            List<Projection> projectionList = new ArrayList<Projection>();
-            Projection projection;
+        List<Projection> projectionList = new ArrayList<Projection>();
+        Projection projection;
+        projection = projection();
+        projectionList.add(projection);
+        label_2:
+        while (true) {
+            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                case COMMA: {
+                    break;
+                }
+                default:
+                    jj_la1[4] = jj_gen;
+                    break label_2;
+            }
+            jj_consume_token(COMMA);
             projection = projection();
             projectionList.add(projection);
-            label_2:
-            while (true) {
-                switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                    case COMMA: {
-                        break;
-                    }
-                    default:
-                        jj_la1[4] = jj_gen;
-                        break label_2;
-                }
-                jj_consume_token(COMMA);
-                projection = projection();
-                projectionList.add(projection);
-            }
-            {
-                if ("" != null) return projectionList;
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("projectionList");
         }
+        {
+            if ("" != null) return projectionList;
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public Projection projection() throws ParseException {
-        trace_call("projection");
-        try {
-            Projection projection;
-            String name = null;
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case LEFT_BRACKET: {
-                    projection = binaryProjection();
-                    break;
-                }
-                default:
-                    jj_la1[5] = jj_gen;
-                    if (jj_2_2(2)) {
-                        projection = crossClassProjection();
-                    } else {
-                        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                            case IDENTIFIER: {
-                                projection = simpleProjection();
-                                break;
-                            }
-                            default:
-                                jj_la1[6] = jj_gen;
-                                jj_consume_token(-1);
-                                throw new ParseException();
+        Projection projection;
+        String name = null;
+        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+            case LEFT_BRACKET: {
+                projection = binaryProjection();
+                break;
+            }
+            default:
+                jj_la1[5] = jj_gen;
+                if (jj_2_2(2)) {
+                    projection = crossClassProjection();
+                } else {
+                    switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                        case IDENTIFIER: {
+                            projection = simpleProjection();
+                            break;
                         }
+                        default:
+                            jj_la1[6] = jj_gen;
+                            jj_consume_token(-1);
+                            throw new ParseException();
                     }
-            }
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case AS: {
-                    jj_consume_token(AS);
-                    name = identifier();
-                    break;
                 }
-                default:
-                    jj_la1[7] = jj_gen;
-            }
-            projection.name = name;
-            {
-                if ("" != null) return projection;
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("projection");
         }
+        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+            case AS: {
+                jj_consume_token(AS);
+                name = identifier();
+                break;
+            }
+            default:
+                jj_la1[7] = jj_gen;
+        }
+        projection.name = name;
+        {
+            if ("" != null) return projection;
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public BinaryProjection binaryProjection() throws ParseException {
-        trace_call("binaryProjection");
-        try {
-            BinaryExpression expression;
-            jj_consume_token(LEFT_BRACKET);
-            expression = binaryExpression();
-            jj_consume_token(RIGHT_BRACKET);
-            {
-                if ("" != null) return new BinaryProjection(expression);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("binaryProjection");
+        BinaryExpression expression;
+        jj_consume_token(LEFT_BRACKET);
+        expression = binaryExpression();
+        jj_consume_token(RIGHT_BRACKET);
+        {
+            if ("" != null) return new BinaryProjection(expression);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public BinaryExpression binaryExpression() throws ParseException {
-        trace_call("binaryExpression");
-        try {
-            SimpleExpression left, right;
-            OperatorType operator;
-            left = simpleExpression();
-            operator = operator();
-            right = simpleExpression();
-            {
-                if ("" != null) return new BinaryExpression(left, right, operator);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("binaryExpression");
+        SimpleExpression left, right;
+        OperatorType operator;
+        left = simpleExpression();
+        operator = operator();
+        right = simpleExpression();
+        {
+            if ("" != null) return new BinaryExpression(left, right, operator);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public SimpleExpression simpleExpression() throws ParseException {
-        trace_call("simpleExpression");
-        try {
-            Object value;
-            PropertyType type;
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case IDENTIFIER: {
-                    value = identifier();
-                    type = PropertyType.CHAR;
-                    break;
-                }
-                case INTEGER_LITERAL: {
-                    value = integer();
-                    type = PropertyType.INT;
-                    break;
-                }
-                case STRING: {
-                    value = string();
-                    type = PropertyType.CHAR;
-                    break;
-                }
-                default:
-                    jj_la1[8] = jj_gen;
-                    jj_consume_token(-1);
-                    throw new ParseException();
+        Object value;
+        PropertyType type;
+        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+            case IDENTIFIER: {
+                value = identifier();
+                type = PropertyType.CHAR;
+                break;
             }
-            {
-                if ("" != null) return new SimpleExpression(value, type);
+            case INTEGER_LITERAL: {
+                value = integer();
+                type = PropertyType.INT;
+                break;
             }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("simpleExpression");
+            case STRING: {
+                value = string();
+                type = PropertyType.CHAR;
+                break;
+            }
+            default:
+                jj_la1[8] = jj_gen;
+                jj_consume_token(-1);
+                throw new ParseException();
         }
+        {
+            if ("" != null) return new SimpleExpression(value, type);
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public int integer() throws ParseException {
-        trace_call("integer");
-        try {
-            Token token;
-            token = jj_consume_token(INTEGER_LITERAL);
-            {
-                if ("" != null) return Integer.parseInt(token.image);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("integer");
+        Token token;
+        token = jj_consume_token(INTEGER_LITERAL);
+        {
+            if ("" != null) return Integer.parseInt(token.image);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public OperatorType operator() throws ParseException {
-        trace_call("operator");
-        try {
-            Token token;
-            token = jj_consume_token(BINARY_OPERATOR);
-            {
-                if ("" != null) return OperatorType.typeOf(token.image);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("operator");
+        Token token;
+        token = jj_consume_token(BINARY_OPERATOR);
+        {
+            if ("" != null) return OperatorType.typeOf(token.image);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public CrossClassProjection crossClassProjection() throws ParseException {
-        trace_call("crossClassProjection");
-        try {
-            List<String> classNames = new ArrayList<String>();
-            String className;
-            String propertyName;
+        List<String> classNames = new ArrayList<String>();
+        String className;
+        String propertyName;
+        className = identifier();
+        classNames.add(className);
+        label_3:
+        while (true) {
+            jj_consume_token(ARROW);
             className = identifier();
             classNames.add(className);
-            label_3:
-            while (true) {
-                jj_consume_token(ARROW);
-                className = identifier();
-                classNames.add(className);
-                switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                    case ARROW: {
-                        break;
-                    }
-                    default:
-                        jj_la1[9] = jj_gen;
-                        break label_3;
+            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                case ARROW: {
+                    break;
                 }
+                default:
+                    jj_la1[9] = jj_gen;
+                    break label_3;
             }
-            jj_consume_token(DOT);
-            propertyName = identifier();
-            {
-                if ("" != null) return new CrossClassProjection(classNames, propertyName);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("crossClassProjection");
         }
+        jj_consume_token(DOT);
+        propertyName = identifier();
+        {
+            if ("" != null) return new CrossClassProjection(classNames, propertyName);
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public SimpleProjection simpleProjection() throws ParseException {
-        trace_call("simpleProjection");
-        try {
-            String name;
-            name = identifier();
-            {
-                if ("" != null) return new SimpleProjection(name);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("simpleProjection");
+        String name;
+        name = identifier();
+        {
+            if ("" != null) return new SimpleProjection(name);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public WhereClause whereClause() throws ParseException {
-        trace_call("whereClause");
-        try {
-            BinaryExpression expression;
-            expression = binaryExpression();
-            {
-                if ("" != null) return new WhereClause(expression);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("whereClause");
+        BinaryExpression expression;
+        expression = binaryExpression();
+        {
+            if ("" != null) return new WhereClause(expression);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public String identifier() throws ParseException {
-        trace_call("identifier");
-        try {
-            Token token;
-            token = jj_consume_token(IDENTIFIER);
-            {
-                if ("" != null) return token.image;
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("identifier");
+        Token token;
+        token = jj_consume_token(IDENTIFIER);
+        {
+            if ("" != null) return token.image;
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public CreateClassStatement createClassStatement() throws ParseException {
-        trace_call("createClassStatement");
-        try {
-            String className;
-            List<Property> propertyList;
-            jj_consume_token(CREATE);
-            jj_consume_token(CLASS);
-            className = identifier();
-            propertyList = propertyList();
-            {
-                if ("" != null) return new CreateClassStatement(className, propertyList);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("createClassStatement");
+        String className;
+        List<Property> propertyList;
+        jj_consume_token(CREATE);
+        jj_consume_token(CLASS);
+        className = identifier();
+        propertyList = propertyList();
+        {
+            if ("" != null) return new CreateClassStatement(className, propertyList);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public List<Property> propertyList() throws ParseException {
-        trace_call("propertyList");
-        try {
-            List<Property> propertyList = new ArrayList<Property>();
-            Property property;
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case LEFT_BRACKET: {
-                    jj_consume_token(LEFT_BRACKET);
+        List<Property> propertyList = new ArrayList<Property>();
+        Property property;
+        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+            case LEFT_BRACKET: {
+                jj_consume_token(LEFT_BRACKET);
+                property = property();
+                propertyList.add(property);
+                label_4:
+                while (true) {
+                    switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                        case COMMA: {
+                            break;
+                        }
+                        default:
+                            jj_la1[10] = jj_gen;
+                            break label_4;
+                    }
+                    jj_consume_token(COMMA);
                     property = property();
                     propertyList.add(property);
-                    label_4:
-                    while (true) {
-                        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                            case COMMA: {
-                                break;
-                            }
-                            default:
-                                jj_la1[10] = jj_gen;
-                                break label_4;
-                        }
-                        jj_consume_token(COMMA);
-                        property = property();
-                        propertyList.add(property);
-                    }
-                    jj_consume_token(RIGHT_BRACKET);
-                    break;
                 }
-                default:
-                    jj_la1[11] = jj_gen;
+                jj_consume_token(RIGHT_BRACKET);
+                break;
             }
-            {
-                if ("" != null) return propertyList;
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("propertyList");
+            default:
+                jj_la1[11] = jj_gen;
         }
+        {
+            if ("" != null) return propertyList;
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public Property property() throws ParseException {
-        trace_call("property");
-        try {
-            String name;
-            PropertyType type;
-            name = identifier();
-            type = propertyType();
-            {
-                if ("" != null) return new Property(name, type);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("property");
+        String name;
+        PropertyType type;
+        name = identifier();
+        type = propertyType();
+        {
+            if ("" != null) return new Property(name, type);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public PropertyType propertyType() throws ParseException {
-        trace_call("propertyType");
-        try {
-            Token token;
-            token = jj_consume_token(TYPE);
-            {
-                if ("" != null) return PropertyType.typeOf(token.image);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("propertyType");
+        Token token;
+        token = jj_consume_token(TYPE);
+        {
+            if ("" != null) return PropertyType.typeOf(token.image);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public CreateDeputyStatement createDeputyStatement() throws ParseException {
-        trace_call("createDeputyStatement");
-        try {
-            String className;
-            List<Property> propertyList;
-            SelectStatement select;
-            jj_consume_token(CREATE);
-            jj_consume_token(SELECTDEPUTY);
-            className = identifier();
-            propertyList = propertyList();
-            select = selectStatement();
-            {
-                if ("" != null) return new CreateDeputyStatement(className, propertyList, select);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("createDeputyStatement");
+        String className;
+        List<Property> propertyList;
+        SelectStatement select;
+        jj_consume_token(CREATE);
+        jj_consume_token(SELECTDEPUTY);
+        className = identifier();
+        propertyList = propertyList();
+        select = selectStatement();
+        {
+            if ("" != null) return new CreateDeputyStatement(className, propertyList, select);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public InsertStatement insertStatement() throws ParseException {
-        trace_call("insertStatement");
-        try {
-            String className;
-            List<String> propertyList;
-            List<SimpleExpression> valueList;
-            jj_consume_token(INSERT);
-            jj_consume_token(INTO);
-            className = identifier();
-            propertyList = identifierList();
-            jj_consume_token(VALUES);
-            valueList = valueList();
-            {
-                if ("" != null) return new InsertStatement(className, propertyList, valueList);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("insertStatement");
+        String className;
+        List<String> propertyList;
+        List<SimpleExpression> valueList;
+        jj_consume_token(INSERT);
+        jj_consume_token(INTO);
+        className = identifier();
+        propertyList = identifierList();
+        jj_consume_token(VALUES);
+        valueList = valueList();
+        {
+            if ("" != null) return new InsertStatement(className, propertyList, valueList);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public List<String> identifierList() throws ParseException {
-        trace_call("identifierList");
-        try {
-            List<String> identifierList = new ArrayList<String>();
-            String identifier;
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case LEFT_BRACKET: {
-                    jj_consume_token(LEFT_BRACKET);
+        List<String> identifierList = new ArrayList<String>();
+        String identifier;
+        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+            case LEFT_BRACKET: {
+                jj_consume_token(LEFT_BRACKET);
+                identifier = identifier();
+                identifierList.add(identifier);
+                label_5:
+                while (true) {
+                    switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                        case COMMA: {
+                            break;
+                        }
+                        default:
+                            jj_la1[12] = jj_gen;
+                            break label_5;
+                    }
+                    jj_consume_token(COMMA);
                     identifier = identifier();
                     identifierList.add(identifier);
-                    label_5:
-                    while (true) {
-                        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                            case COMMA: {
-                                break;
-                            }
-                            default:
-                                jj_la1[12] = jj_gen;
-                                break label_5;
-                        }
-                        jj_consume_token(COMMA);
-                        identifier = identifier();
-                        identifierList.add(identifier);
-                    }
-                    jj_consume_token(RIGHT_BRACKET);
-                    break;
                 }
-                default:
-                    jj_la1[13] = jj_gen;
+                jj_consume_token(RIGHT_BRACKET);
+                break;
             }
-            {
-                if ("" != null) return identifierList;
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("identifierList");
+            default:
+                jj_la1[13] = jj_gen;
         }
+        {
+            if ("" != null) return identifierList;
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public List<SimpleExpression> valueList() throws ParseException {
-        trace_call("valueList");
-        try {
-            List<SimpleExpression> valueList = new ArrayList<SimpleExpression>();
-            SimpleExpression value;
-            switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                case LEFT_BRACKET: {
-                    jj_consume_token(LEFT_BRACKET);
+        List<SimpleExpression> valueList = new ArrayList<SimpleExpression>();
+        SimpleExpression value;
+        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+            case LEFT_BRACKET: {
+                jj_consume_token(LEFT_BRACKET);
+                value = simpleExpression();
+                valueList.add(value);
+                label_6:
+                while (true) {
+                    switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
+                        case COMMA: {
+                            break;
+                        }
+                        default:
+                            jj_la1[14] = jj_gen;
+                            break label_6;
+                    }
+                    jj_consume_token(COMMA);
                     value = simpleExpression();
                     valueList.add(value);
-                    label_6:
-                    while (true) {
-                        switch ((jj_ntk == -1) ? jj_ntk_f() : jj_ntk) {
-                            case COMMA: {
-                                break;
-                            }
-                            default:
-                                jj_la1[14] = jj_gen;
-                                break label_6;
-                        }
-                        jj_consume_token(COMMA);
-                        value = simpleExpression();
-                        valueList.add(value);
-                    }
-                    jj_consume_token(RIGHT_BRACKET);
-                    break;
                 }
-                default:
-                    jj_la1[15] = jj_gen;
+                jj_consume_token(RIGHT_BRACKET);
+                break;
             }
-            {
-                if ("" != null) return valueList;
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("valueList");
+            default:
+                jj_la1[15] = jj_gen;
         }
+        {
+            if ("" != null) return valueList;
+        }
+        throw new Error("Missing return statement in function");
     }
 
     final public String string() throws ParseException {
-        trace_call("string");
-        try {
-            Token token;
-            token = jj_consume_token(STRING);
-            String image = token.image;
-            {
-                if ("" != null) return image.substring(1, image.length() - 1);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("string");
+        Token token;
+        token = jj_consume_token(STRING);
+        String image = token.image;
+        {
+            if ("" != null) return image.substring(1, image.length() - 1);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public UpdateStatement updateStatement() throws ParseException {
-        trace_call("updateStatement");
-        try {
-            String className;
-            String propertyName;
-            SimpleExpression propertyValue;
-            WhereClause whereClause;
-            BinaryExpression expression;
-            jj_consume_token(UPDATE);
-            className = identifier();
-            jj_consume_token(SET);
-            expression = binaryExpression();
-            jj_consume_token(WHERE);
-            whereClause = whereClause();
-            propertyName = (String) expression.left.value;
-            propertyValue = expression.right;
-            {
-                if ("" != null) return new UpdateStatement(className, propertyName, propertyValue, whereClause);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("updateStatement");
+        String className;
+        String propertyName;
+        SimpleExpression propertyValue;
+        WhereClause whereClause;
+        BinaryExpression expression;
+        jj_consume_token(UPDATE);
+        className = identifier();
+        jj_consume_token(SET);
+        expression = binaryExpression();
+        jj_consume_token(WHERE);
+        whereClause = whereClause();
+        propertyName = (String) expression.left.value;
+        propertyValue = expression.right;
+        {
+            if ("" != null) return new UpdateStatement(className, propertyName, propertyValue, whereClause);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public DeleteStatement deleteStatement() throws ParseException {
-        trace_call("deleteStatement");
-        try {
-            String className;
-            WhereClause whereClause;
-            jj_consume_token(DELETE);
-            jj_consume_token(FROM);
-            className = identifier();
-            jj_consume_token(WHERE);
-            whereClause = whereClause();
-            {
-                if ("" != null) return new DeleteStatement(className, whereClause);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("deleteStatement");
+        String className;
+        WhereClause whereClause;
+        jj_consume_token(DELETE);
+        jj_consume_token(FROM);
+        className = identifier();
+        jj_consume_token(WHERE);
+        whereClause = whereClause();
+        {
+            if ("" != null) return new DeleteStatement(className, whereClause);
         }
+        throw new Error("Missing return statement in function");
     }
 
     final public DropStatement dropStatement() throws ParseException {
-        trace_call("dropStatement");
-        try {
-            String className;
-            jj_consume_token(DROP);
-            jj_consume_token(CLASS);
-            className = identifier();
-            {
-                if ("" != null) return new DropStatement(className);
-            }
-            throw new Error("Missing return statement in function");
-        } finally {
-            trace_return("dropStatement");
+        String className;
+        jj_consume_token(DROP);
+        jj_consume_token(CLASS);
+        className = identifier();
+        {
+            if ("" != null) return new DropStatement(className);
         }
+        throw new Error("Missing return statement in function");
     }
 
     private boolean jj_2_1(int xla) {
@@ -875,7 +743,6 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     }
                 }
             }
-            trace_token(token, "");
             return token;
         }
         token = oldToken;
@@ -916,7 +783,6 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         else token = token.next = token_source.getNextToken();
         jj_ntk = -1;
         jj_gen++;
-        trace_token(token, " (in getNextToken)");
         return token;
     }
 
@@ -1008,60 +874,12 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
      * Enable tracing.
      */
     final public void enable_tracing() {
-        trace_enabled = true;
     }
 
     /**
      * Disable tracing.
      */
     final public void disable_tracing() {
-        trace_enabled = false;
-    }
-
-    private void trace_call(String s) {
-        if (trace_enabled) {
-            for (int i = 0; i < trace_indent; i++) {
-                System.out.print(" ");
-            }
-            System.out.println("Call:   " + s);
-        }
-        trace_indent = trace_indent + 2;
-    }
-
-    private void trace_return(String s) {
-        trace_indent = trace_indent - 2;
-        if (trace_enabled) {
-            for (int i = 0; i < trace_indent; i++) {
-                System.out.print(" ");
-            }
-            System.out.println("Return: " + s);
-        }
-    }
-
-    private void trace_token(Token t, String where) {
-        if (trace_enabled) {
-            for (int i = 0; i < trace_indent; i++) {
-                System.out.print(" ");
-            }
-            System.out.print("Consumed token: <" + tokenImage[t.kind]);
-            if (t.kind != 0 && !tokenImage[t.kind].equals("\"" + t.image + "\"")) {
-                System.out.print(": \"" + t.image + "\"");
-            }
-            System.out.println(" at line " + t.beginLine + " column " + t.beginColumn + ">" + where);
-        }
-    }
-
-    private void trace_scan(Token t1, int t2) {
-        if (trace_enabled) {
-            for (int i = 0; i < trace_indent; i++) {
-                System.out.print(" ");
-            }
-            System.out.print("Visited token: <" + tokenImage[t1.kind]);
-            if (t1.kind != 0 && !tokenImage[t1.kind].equals("\"" + t1.image + "\"")) {
-                System.out.print(": \"" + t1.image + "\"");
-            }
-            System.out.println(" at line " + t1.beginLine + " column " + t1.beginColumn + ">; Expected token: <" + tokenImage[t2] + ">");
-        }
     }
 
     private void jj_rescan_token() {
