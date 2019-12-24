@@ -1,7 +1,13 @@
 package ast;
 
+/**
+ * 需要进行二元运算的投影
+ */
 public class BinaryProjection extends Projection {
 
+    /**
+     * 二元运算表达式
+     */
     public BinaryExpression expression;
 
     public BinaryProjection(BinaryExpression expression) {

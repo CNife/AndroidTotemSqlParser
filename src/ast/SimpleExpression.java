@@ -1,7 +1,18 @@
 package ast;
 
+/**
+ * 基本表达式
+ */
 public class SimpleExpression {
+
+    /**
+     * 表达式的值
+     */
     public Object value;
+
+    /**
+     * 表达式的类型
+     */
     public PropertyType type;
 
     public SimpleExpression(Object value, PropertyType type) {

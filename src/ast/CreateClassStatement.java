@@ -2,8 +2,19 @@ package ast;
 
 import java.util.List;
 
+/**
+ * CREATE CLASS 语句
+ */
 public class CreateClassStatement implements Statement {
+
+    /**
+     * 类名
+     */
     public String className;
+
+    /**
+     * 类属性列表
+     */
     public List<Property> propertyList;
 
     public CreateClassStatement(String className, List<Property> propertyList) {

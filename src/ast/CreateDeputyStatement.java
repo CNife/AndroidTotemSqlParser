@@ -2,15 +2,42 @@ package ast;
 
 import java.util.List;
 
+/**
+ * CREATE CLASS SELECTDEPUTY 语句
+ */
 public class CreateDeputyStatement implements Statement {
+
+    /**
+     * 代理类名
+     */
     public String className;
+
+    /**
+     * 代理类的实属性列表
+     */
     public List<Property> propertyList;
-    public SelectStatement selectFrom;
+
+    /**
+     * 源类名
+     */
+    public String originClassName;
+
+    /**
+     * 虚属性列表
+     */
+    public List<Projection> virtualPropertyRuleList;
+
+    /**
+     * WHERE 子句
+     */
+    public WhereClause whereClause;
 
     public CreateDeputyStatement(String className, List<Property> propertyList, SelectStatement selectFrom) {
         this.className = className;
         this.propertyList = propertyList;
-        this.selectFrom = selectFrom;
+        this.originClassName = selectFrom.className;
+        this.virtualPropertyRuleList = selectFrom.projectionList;
+        this.whereClause = selectFrom.whereClause;
     }
 
     @Override
@@ -23,7 +50,9 @@ public class CreateDeputyStatement implements Statement {
         return "CreateDeputyStatement{" +
                 "className='" + className + '\'' +
                 ", propertyList=" + propertyList +
-                ", selectFrom=" + selectFrom +
+                ", originClassName='" + originClassName + '\'' +
+                ", virtualPropertyRuleList=" + virtualPropertyRuleList +
+                ", whereClause=" + whereClause +
                 '}';
     }
 }
