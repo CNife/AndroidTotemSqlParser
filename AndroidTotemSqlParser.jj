@@ -393,8 +393,9 @@ String string():
 UpdateStatement updateStatement():
 {
     String className;
-    String propertyName;
-    SimpleExpression propertyValue;
+    List<String> propertyNameList = new ArrayList<String>();
+    List<SimpleExpression> propertyValueList = new ArrayList<SimpleExpression>();
+    List<BinaryExpression> setExpressionList;
     WhereClause whereClause;
     BinaryExpression expression;
 }
@@ -402,13 +403,37 @@ UpdateStatement updateStatement():
     <UPDATE>
     className = identifier()
     <SET>
-    expression = binaryExpression()
+    setExpressionList = setExpressionList()
     <WHERE>
     whereClause = whereClause()
     {
-        propertyName = (String) expression.left.value;
-        propertyValue = expression.right;
-        return new UpdateStatement(className, propertyName, propertyValue, whereClause);
+        for (BinaryExpression be : setExpressionList) {
+            propertyNameList.add((String) be.left.value);
+            propertyValueList.add(be.right);
+        }
+        return new UpdateStatement(className, propertyNameList, propertyValueList, whereClause);
+    }
+}
+
+List<BinaryExpression> setExpressionList():
+{
+    List<BinaryExpression> setExpressionList = new ArrayList<BinaryExpression>();
+    BinaryExpression setExpression;
+}
+{
+    setExpression = binaryExpression()
+    {
+        setExpressionList.add(setExpression);
+    }
+    (
+        <COMMA>
+        setExpression = binaryExpression()
+        {
+            setExpressionList.add(setExpression);
+        }
+    )*
+    {
+        return setExpressionList;
     }
 }
 
