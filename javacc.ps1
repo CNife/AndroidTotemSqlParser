@@ -1,6 +1,6 @@
 Remove-Item -Path ".\src\generated\*.java"
 
-java -classpath "C:\Code\javacc-6.0\bin\lib\javacc.jar" `
+java -classpath "./lib/javacc-7.0.5.jar"`
     javacc `
         -JDK_VERSION="1.8" `
         -OUTPUT_DIRECTORY="./src/generated" `

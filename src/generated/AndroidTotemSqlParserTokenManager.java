@@ -8,20 +8,31 @@ package generated;
 @SuppressWarnings("unused")
 public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserConstants {
 
-    /** Token literal values. */
+    /**
+     * Token literal values.
+     */
     public static final String[] jjstrLiteralImages = {
             "", null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null, null, "\55\76", "\54", "\56", "\73",
             "\50", "\51", "\47", null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null,};
-    /** Lexer state names. */
+    /**
+     * Lexer state names.
+     */
     public static final String[] lexStateNames = {
             "DEFAULT",
+    };
+    /**
+     * Lex State array.
+     */
+    public static final int[] jjnewLexState = {
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     };
     static final long[] jjbitVec0 = {
             0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL
     };
-    static final int[] jjnextStates = {
+    static final int[] jjnextStates = {0
     };
     static final long[] jjtoToken = {
             0x11803fcfffe1L,
@@ -29,20 +40,34 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
     static final long[] jjtoSkip = {
             0x1eL,
     };
+    static final long[] jjtoSpecial = {
+            0x0L,
+    };
+    static final long[] jjtoMore = {
+            0x0L,
+    };
     private final int[] jjrounds = new int[20];
     private final int[] jjstateSet = new int[2 * 20];
-    /** Debug output. */
+    private final StringBuilder jjimage = new StringBuilder();
+    /**
+     * Debug output.
+     */
     public java.io.PrintStream debugStream = System.out;
     protected SimpleCharStream input_stream;
-    protected char curChar;
+    protected int curChar;
     int curLexState = 0;
     int defaultLexState = 0;
     int jjnewStateCnt;
     int jjround;
     int jjmatchedPos;
     int jjmatchedKind;
+    private StringBuilder image = jjimage;
+    private int jjimageLen;
+    private int lengthOfMatch;
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     public AndroidTotemSqlParserTokenManager(SimpleCharStream stream) {
 
         if (SimpleCharStream.staticFlag)
@@ -832,7 +857,9 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
         beginColumn = input_stream.getBeginColumn();
         endLine = input_stream.getEndLine();
         endColumn = input_stream.getEndColumn();
-        t = Token.newToken(jjmatchedKind, curTokenImage);
+        t = Token.newToken(jjmatchedKind);
+        t.kind = jjmatchedKind;
+        t.image = curTokenImage;
 
         t.beginLine = beginLine;
         t.endLine = endLine;
@@ -853,7 +880,7 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
         for (; ; ) {
             try {
                 curChar = input_stream.BeginToken();
-            } catch (java.io.IOException e) {
+            } catch (Exception e) {
                 jjmatchedKind = 0;
                 jjmatchedPos = -1;
                 matchedToken = jjFillToken();
@@ -904,6 +931,28 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
         }
     }
 
+    void SkipLexicalActions(Token matchedToken) {
+        switch (jjmatchedKind) {
+            default:
+                break;
+        }
+    }
+
+    void MoreLexicalActions() {
+        jjimageLen += (lengthOfMatch = jjmatchedPos + 1);
+        switch (jjmatchedKind) {
+            default:
+                break;
+        }
+    }
+
+    void TokenLexicalActions(Token matchedToken) {
+        switch (jjmatchedKind) {
+            default:
+                break;
+        }
+    }
+
     private void jjCheckNAdd(int state) {
         if (jjrounds[state] != jjround) {
             jjstateSet[jjnewStateCnt++] = state;
@@ -925,8 +974,13 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
     /**
      * Reinitialise parser.
      */
+
     public void ReInit(SimpleCharStream stream) {
-        jjmatchedPos = jjnewStateCnt = 0;
+
+
+        jjmatchedPos =
+                jjnewStateCnt =
+                        0;
         curLexState = defaultLexState;
         input_stream = stream;
         ReInitRounds();
@@ -955,5 +1009,5 @@ public class AndroidTotemSqlParserTokenManager implements AndroidTotemSqlParserC
             throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
         else
             curLexState = lexState;
-  }
+    }
 }

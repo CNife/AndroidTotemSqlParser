@@ -14,6 +14,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         return parser.statements();
     }
 
+    static private final LookaheadSuccess jj_ls = new LookaheadSuccess();
     static private int[] jj_la1_0;
     static private int[] jj_la1_1;
 
@@ -24,7 +25,6 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
 
     final private int[] jj_la1 = new int[17];
     final private JJCalls[] jj_2_rtns = new JJCalls[2];
-    final private LookaheadSuccess jj_ls = new LookaheadSuccess();
     /**
      * Generated Token Manager.
      */
@@ -49,6 +49,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     private int jj_kind = -1;
     private int[] jj_lasttokens = new int[100];
     private int jj_endpos;
+    private boolean trace_enabled;
 
     /**
      * Constructor with InputStream.
@@ -650,7 +651,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         try {
-            return !jj_3_1();
+            return (!jj_3_1());
         } catch (LookaheadSuccess ls) {
             return true;
         } finally {
@@ -662,7 +663,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         try {
-            return !jj_3_2();
+            return (!jj_3_2());
         } catch (LookaheadSuccess ls) {
             return true;
         } finally {
@@ -733,7 +734,15 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
      * Reinitialise.
      */
     public void ReInit(java.io.Reader stream) {
-        jj_input_stream.ReInit(stream, 1, 1);
+        if (jj_input_stream == null) {
+            jj_input_stream = new SimpleCharStream(stream, 1, 1);
+        } else {
+            jj_input_stream.ReInit(stream, 1, 1);
+        }
+        if (token_source == null) {
+            token_source = new AndroidTotemSqlParserTokenManager(jj_input_stream);
+        }
+
         token_source.ReInit(jj_input_stream);
         token = new Token();
         jj_ntk = -1;
@@ -834,28 +843,40 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     }
 
     private void jj_add_error_token(int kind, int pos) {
-        if (pos >= 100) return;
+        if (pos >= 100) {
+            return;
+        }
+
         if (pos == jj_endpos + 1) {
             jj_lasttokens[jj_endpos++] = kind;
         } else if (jj_endpos != 0) {
             jj_expentry = new int[jj_endpos];
+
             for (int i = 0; i < jj_endpos; i++) {
                 jj_expentry[i] = jj_lasttokens[i];
             }
-            jj_entries_loop:
-            for (java.util.Iterator<?> it = jj_expentries.iterator(); it.hasNext(); ) {
-                int[] oldentry = (int[]) (it.next());
+
+            for (int[] oldentry : jj_expentries) {
                 if (oldentry.length == jj_expentry.length) {
+                    boolean isMatched = true;
+
                     for (int i = 0; i < jj_expentry.length; i++) {
                         if (oldentry[i] != jj_expentry[i]) {
-                            continue jj_entries_loop;
+                            isMatched = false;
+                            break;
                         }
+
                     }
-                    jj_expentries.add(jj_expentry);
-                    break jj_entries_loop;
+                    if (isMatched) {
+                        jj_expentries.add(jj_expentry);
+                        break;
+                    }
                 }
             }
-            if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+
+            if (pos != 0) {
+                jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+            }
         }
     }
 
@@ -899,6 +920,13 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
     }
 
     /**
+     * Trace enabled.
+     */
+    final public boolean trace_enabled() {
+        return trace_enabled;
+    }
+
+    /**
      * Enable tracing.
      */
     final public void enable_tracing() {
@@ -915,6 +943,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
         for (int i = 0; i < 2; i++) {
             try {
                 JJCalls p = jj_2_rtns[i];
+
                 do {
                     if (p.gen > jj_gen) {
                         jj_la = p.arg;
@@ -930,6 +959,7 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
                     }
                     p = p.next;
                 } while (p != null);
+
             } catch (LookaheadSuccess ls) {
             }
         }
@@ -945,19 +975,25 @@ public class AndroidTotemSqlParser implements AndroidTotemSqlParserConstants {
             }
             p = p.next;
         }
+
         p.gen = jj_gen + xla - jj_la;
         p.first = token;
         p.arg = xla;
     }
 
     @SuppressWarnings("serial")
-    static private final class LookaheadSuccess extends java.lang.Error { }
+    static private final class LookaheadSuccess extends java.lang.Error {
+        @Override
+        public Throwable fillInStackTrace() {
+            return this;
+        }
+    }
 
-  static final class JJCalls {
-    int gen;
-    Token first;
-    int arg;
-    JJCalls next;
-  }
+    static final class JJCalls {
+        int gen;
+        Token first;
+        int arg;
+        JJCalls next;
+    }
 
 }
